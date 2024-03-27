@@ -41,7 +41,7 @@ console.log(validUser(5, 9));
 // js functions globally executed
 // this.session read at time of execution will asssign value
 
-//4. Constructor Function : Is used to create a class like structure using functions
+//4. Constructor Function : Is used to create a class like structure/behavior using functions
 
 function Area(length, width, radius) {
   this.length = length, // can use semicolon, or nothing (optional) constructor pattern
