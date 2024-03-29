@@ -90,16 +90,18 @@ var number1 = 20;
 function A(a) {
 
     return function B(b) {
-        return a + b
+        return function C(c){
+            return a + b + c
+        }
     }
 }
 
 var objA = A(5) // returns function B
-var result = objA(10) 
+var objB = objA(5) // returns function C 
 
-console.log(result) // get 15
+console.log(objB(5)) // get 15
 // chain execution
-console.log(objA(10)) // get 15 
+console.log(objA(5)(5)) // get 15 
 
 //Q2. As javascript is not a type safe and has auto cast feature - try showing below values from the same variable
 // and its type as well :values are - "Robert ", .0266, false, {myname : "Test Me"}, 25166665, undefined, true, "Robert Jr.", null, {}, -32767
@@ -147,6 +149,7 @@ console.log(add(2)) // for b and c var is undefined so get NaN which is not a nu
 console.log(add("first", 2, "three")) // string concatenation
 
 //Q5. Give me an example of your choice on closure, hoisting, constructor function, each.
+console.log("Question 5")
 // closure
 function Parent(userName) {
     var name = "David"
@@ -167,12 +170,13 @@ var objA = Parent("David")
 console.log(objA(true)) // get account balance
 
 // hoisting
-console.log(hoist_var) // this will get undefined 
-console.log(hoist_func()) // this will hello hoist
-var hoist_var = "hello hoist"
+console.log(hoist_var2) // this will get undefined 
+console.log(hoist_func2()) // this will hello hoist
+var hoist_var2 = "hello hoist"
 
-function hoist_func() {
+function hoist_func2() {
     console.log("hello hoist")
+    return true
 }
 
 // constructor
