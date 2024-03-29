@@ -65,8 +65,8 @@ name = emptyObj == emptyObj2;
 console.log(name); // false , reference type
 console.log('Data Type ', typeof name); // data type - boolean
 
-var emptyObj = null;
-var emptyObj2 = null;
+var emptyObj = 2;
+var emptyObj2 = "2";
 
 name = emptyObj == emptyObj2;
 console.log(name); // true
