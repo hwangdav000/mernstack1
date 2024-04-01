@@ -51,3 +51,21 @@ objOffFuncConstructor.getUserDetails = function () {
 }
 console.log(objOffFuncConstructor.getUserDetails())
 console.log(funcObj.getUserDetails())
+//create a constructor function to print user details add one information using prototype
+
+function userDetails(name, pin) {
+    this.name = name,
+    this.pin = "1111"
+    this.password = "1234"
+    this.getDetails = function(isUser) {
+        if (isUser && this.pin==pin) {
+            return {
+                name: this.name,
+                gender: this.gender
+            }
+        }
+    }
+}
+var user = new userDetails("David", "1111")
+user.gender = "male"
+console.log(user.getDetails(true))

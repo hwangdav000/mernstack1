@@ -4,6 +4,7 @@ var User = {
 
 var aConstant = 3.14
 
+// define in one place can use in other place
 globalThis.User = {
     User : "Second User",
     NewUser : "Suyash",
