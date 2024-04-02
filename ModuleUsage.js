@@ -4,3 +4,4 @@ var {aConstant, User} = require("./Module") // require is node module that allow
 console.log(User.test)
 console.log(aConstant)
 console.log(globalThis.User)
+console.log(globalThis)

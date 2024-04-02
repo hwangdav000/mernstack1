@@ -61,11 +61,15 @@ function userDetails(name, pin) {
         if (isUser && this.pin==pin) {
             return {
                 name: this.name,
-                gender: this.gender
+                gender: this.gender,
+                hobbies: this.hobbies
             }
         }
     }
 }
 var user = new userDetails("David", "1111")
 user.gender = "male"
+user.__proto__.hobbies = "running"
 console.log(user.getDetails(true))
+console.log(user.__proto__)
+console.log(user)

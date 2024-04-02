@@ -58,7 +58,7 @@ nullPrototype.toString = function(params) {
 
 console.log(nullPrototype.__proto__) // undefined
 
-// 6. Object.assign - mergin two objects
+// 6. Object.assign - merging two objects
 
 var User = {name: "Aileen", add1  : "lake city", mobile : "44545454"}
 var Address = {name : "Aileen", add1 : "wall street", productName : "New product"}
@@ -96,4 +96,6 @@ Student2.printOut= function () {
     return Student2.name + Student2.debt + Student2.person
 }
 
-console.log(Student2.printOut())
+console.log(Student2)
+// just copy of Student2 not really a
+console.log(Student2.__proto__)

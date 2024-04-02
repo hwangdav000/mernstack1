@@ -133,9 +133,14 @@ console.log("value: " + hello + " type: " + typeof hello)
 //  print all the details in the given function
 console.log("Question 3")
 function userInfo(firstName, lastName, age) {
-    console.log(firstName, lastName , age)
+    return {firstName, lastName , age}
 }
-var objUser = userInfo("David", "Hwang", 25)
+// var objUser = userInfo("David", "Hwang", 25)
+
+function callMe(firstName, lastName, age, callback) {
+    return callback(firstName, lastName, age)
+}
+console.log(callMe("David", "Hwang", 25, userInfo))
 
 //Q4. Create a function with name doaddition, pass three parameters and return the sum of all the three numbers
 // below output needs to be monitored - add(2,3,4), add(2), add(2.3,3), add("first", 2, "three")
