@@ -45,3 +45,4 @@ var student = {
 var csciList = ["csci", "c1", "c2", "c3"]
 GetStudent.call(student, "csci", "c1", "c2", "c3")
 GetStudent.apply(student, csciList)
+
