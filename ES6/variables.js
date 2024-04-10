@@ -75,4 +75,4 @@ for (let index1 = 1; index1 < 5; index1++) {
     }, 2000);
 }
 
-//console.log("breaking condition " + index)
+console.log("breaking condition " + index)
