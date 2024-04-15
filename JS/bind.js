@@ -15,13 +15,13 @@ var User = {
     GetUserInfo : function () {
         // console.log(this)
         // console.log(`User info ${this.Name} and ${this.Address}`)
-        setTimeout((function (params) { // lose context of user, the context gets updated with Timeout which does not have name and address (regardless of time)
-            console.log(this)
-            console.log(`SetTimeOut User info ${this.Name} and ${this.Address}`)
-        }).bind(User),2000)
+        // setTimeout((function (params) { // lose context of user, the context gets updated with Timeout which does not have name and address (regardless of time)
+        //     console.log(this)
+        //     console.log(`SetTimeOut User info ${this.Name} and ${this.Address}`)
+        // }).bind(User),2000)
 
         var that = this; // - copies dynamic content
-        setTimeout((function (params) { // lose context of user, the context gets updated with Timeout which does not have name and address (regardless of time)
+        setTimeout((function (params) { 
             
             console.log(`SetTimeOut User info ${that.Name} and ${that.Address}`)
         }),2000)
