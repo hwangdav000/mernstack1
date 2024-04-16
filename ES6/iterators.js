@@ -76,6 +76,6 @@ let anyPython = persons.some(person=> person.tag=="python")
 
 //4. Find the number of unique tags and their count present in list
 let tagUnique = persons.reduce((prevVal, currVal, index, array) => {
-    prevVal[currVal.tags] = preVal[currVal.tags] ? prevVal[currVal.tags] + 1 : 1;
+    prevVal[currVal.tags] = prevVal[currVal.tags] ? prevVal[currVal.tags] + 1 : 1;
     return prevVal
 }, new Set())

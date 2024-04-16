@@ -25,7 +25,6 @@ let Func_Arrow_1 = (a = 0,b = 0) => {
 
 // 2. Arrow function copies the context of parent as its own content
 
-
 var User = {
     Name : "Otoi",
     Address : "In Paris",
