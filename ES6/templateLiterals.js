@@ -1,13 +1,29 @@
-//Template Literals : are the upgrades in quotes which we use to create dynamic html, sting with values etc.
-let AnimalSoundES6 = require("./shortHand") // import animal sounds
+//Template Literals : Are the upgrades in quotes "" which we use to create dynamic html, string with values etc.
 
-let dynVal= 25000
-let myNormalString = "Loren" + dynVal + JSON.stringify(AnimalSoundES6)
+// `` - button below esc - key will start the Template Literals
+//If we need to add dynamic or runtime values then ${ dynamicVariable }
 
-console.log(myNormalString)
 
-// much easier to manage spacing with ``
-let myNormalStringTemplate = `Loren ${dynVal} + ${JSON.stringify(AnimalSoundES6)}`
+let AnimalSoundsES6 = require('./shortHand') //importing animal sound here
+let dynVal = 25000
 
-console.log(myNormalStringTemplate)
+let myNormalString ="Lorem Lipsum Lorem Lipsum Lorem Lipsum" +
+                    "\n Lorem Lipsum Lorem Lipsum "+dynVal+" Lorem Lipsum" +
+                    "\n Lorem Lipsum Lorem Lipsum Lorem Lipsum" +
+                    "\n Lorem Lipsum Lorem Lipsum Lorem Lipsum" +
+                    "<h1>Header</h1>"+
+                    "\n Lorem Lipsum Lorem Lipsum Lorem Lipsum \n" +
+                    JSON.stringify(AnimalSoundsES6);
 
+console.log(myNormalString);
+
+let myNormalStringTemplate =`Lorem Lipsum Lorem Lipsum Lorem Lipsum
+                     Lorem Lipsum Lorem Lipsum ${dynVal} Lorem Lipsum
+                                            Lorem Lipsum Lorem Lipsum Lorem Lipsum
+                     Lorem Lipsum Lorem Lipsum Lorem Lipsum
+                        <h1>Header</h1>
+                        <b>Your Name</b>
+                     Lorem Lipsum Lorem Lipsum Lorem Lipsum 
+                    ${JSON.stringify(AnimalSoundsES6)}`;
+
+console.log(myNormalStringTemplate);

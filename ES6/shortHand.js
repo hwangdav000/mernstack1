@@ -35,6 +35,4 @@ let AnimalSoundES6_one = {cat, dog, bird, lion}
 // console.log('Animal Sound refers with 4 ' , AnimalSoundES6) // works
 // console.log('Animal Sound refers with 5 ' + JSON.stringify(AnimalSoundES6)) // works
 
-module.exports = {
-    AnimalSoundES6
-}
+module.exports = AnimalSoundES6

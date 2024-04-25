@@ -1,5 +1,5 @@
 // 1. How to preserve the immutability on my heroes list? Solve below problems using the same
-
+// can preserve immutability by using const
 const heroes = [
   { name: 'Wolverine',      family: 'Marvel',    isEvil: false },
   { name: 'Deadpool',       family: 'Marvel',    isEvil: false },
@@ -13,6 +13,7 @@ const heroes = [
 ]
 // a. Get heroes who are not evils
 console.log(heroes.filter(hero => hero.isEvil == false ? hero : ""))
+
 // b. Print Unique family names
 let uniqueFamilies = heroes.reduce((prevVal, currVal,index, array) => {
     prevVal[currVal.family] = prevVal[currVal.family] ? prevVal[currVal.family]+1 : 1; 
@@ -24,7 +25,6 @@ console.log(uniqueFamilies)
 heroes.map(hero => {
     return {"name" : "sir " + hero.name}
 }).filter(names => names != undefined)
-
 
 // d. Do we have any hero in Marvel Family who is not evil
 console.log(heroes.some(hero => hero.family == "Marvel" && hero.isEvil==false))
@@ -138,5 +138,6 @@ var userContext={
 }
 GetTest.call(userContext, "one1", "two2", "three3")
 var contextList = ["one", "two", "three"]
+
 // apply - pass context then arguments as array
 GetTest.apply(userContext, contextList)
