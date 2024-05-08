@@ -2,34 +2,49 @@
 
 console.log("In server js")
 
-const express = require('express')
-const app = express() // express app server
+const express = require('express') // express calss constructor
+const app = express() // invoke the class to create express app server
 
-app.get('/', function (req, res) {
-  res.send('Hello World from node api')
-})
+const port = 9000;
 
-//http://localhost:3000/name?name=suyash&session=express
-app.get('/name', function(req,res) {
-    let queryStr = req.query // i used to read the values after ? in api path
-    console.log(queryStr)
-    res.json(queryStr)
-    console.log(queryStr.name)
-})
+const defaultRouter = require("./Routers/defaultRoute.js")
+const adminRouter = require("./Routers/adminRoute.js")
+
+// we can have one main and multiple other express apps at a place
+const adminApp = express(); // a new express app to handle requests mounted with admin in path
 
 
-//http://localhost:3000/nameByID/2000
-app.get('/nameByID/:id', function(req,res) {
-    let queryParam = req.params["id"] // reads the parameter in path of API, can have multiple query params
+// setting up the midleware static , to handle all static files served to client
+// serve static files like images, css using static middleware
+// just add /static/ to path and it would move to public
+app.use('/static', express.static('public'))
 
-    console.log(queryParam)
-    if (queryParam== 2000) {
-        res.send("<h1>User is present</h1>")
-    } else {
-        res.send("<h1>User not present</h1>")
-    }
-})
 
-app.listen(3000)
+// // not feasible, can have a lot of files
+// app.get('/alert_me.js', function(req,res) {
+//     res.sendFile(__dirname+ "/Public/alert_me.js")
+// })
 
-console.log("api launched at - locahost:3000")
+// path mounting to other expres app
+//locahost:3000/admin
+app.use("/admin", adminApp)
+adminApp.use(adminRouter)
+
+
+// // fall back strategy for every API not available 
+// // this is wild card to accept all failed calls
+// app.all('*', function(req,res) {
+//     res.sendFile(__dirname+ "/Public/index.html")
+// })
+
+
+app.use("/", defaultRouter)
+
+app.listen(port)
+
+console.log("api launched at - locahost:" + port)
+
+// express 3 main pillar
+// 1. express
+// 2. request - incoming data/ send from browser
+// 3. response - whatever server api sends

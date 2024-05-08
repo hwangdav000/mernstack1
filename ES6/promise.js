@@ -41,26 +41,26 @@ function LoginProcess(userId, password) {
 // manipulate and return the response when asked
 // laptop should be given david N , can ask if laptop is configured or not
 // library of ES6, have their own implementation
-// let promiseObject = new Promise((resolve, reject) => {
-//     //let userSession = Authentication_API(userInfo) // make call to server get the response and store
-//     // get one or the other
+let promiseObject = new Promise((resolve, reject) => {
+    //let userSession = Authentication_API(userInfo) // make call to server get the response and store
+    // get one or the other
     
-//     setTimeout(()=>{
-//         resolve({
-//             status : "Success",
-//             value : "User Session Object",
-//             code : 200
-//         })
-//     }, 2000)
+    setTimeout(()=>{
+        resolve({
+            status : "Success",
+            value : "User Session Object",
+            code : 200
+        })
+    }, 2000)
 
-//     setTimeout(()=>{
-//         reject({
-//             status : "Failed",
-//             value : "User Session Failed",
-//             code : 403.15
-//         })
-//     }, 1000)
-// })
+    setTimeout(()=>{
+        reject({
+            status : "Failed",
+            value : "User Session Failed",
+            code : 403.15
+        })
+    }, 1000)
+})
 
 // console.log(promiseObject)
 
