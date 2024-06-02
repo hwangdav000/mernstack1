@@ -33,16 +33,20 @@ config = {
                 use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                exclude: /nodeModules/,
-                type: 'asset/resource',
-            }
+                test: /\.(png|jpe?g|gif)$/i,
+                loader: 'file-loader',
+                options: {
+                  outputPath: 'assets/images/',
+                  name: '[name].[ext]',
+                  url: true,
+                  publicPath: './app/images/',
+                }
+            },
+            
+
         ]
     },
     plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })] //localhost:9090 - loads this html
 }
-console.log("using this config")
-var pathtocheck = path.join(__dirname, '/dist')
-console.log(pathtocheck)
 
 module.exports = config;
