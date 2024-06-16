@@ -24,3 +24,5 @@ export const ADD_COUPON = 'STORE.ADDCOUPON';
 export const ADD_ORDER = 'STORE.ADDORDER';
 export const GET_ORDER = 'STORE.GETORDER';
 export const CANCEL_ORDER = 'STORE.CANCELORDER';
+
+export const GET_REVIEWS = 'STORE.GETREVIEWS';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   CancelOrderToDB,
   DeliverOrderToDB,
@@ -7,12 +7,14 @@ import {
   getOrdersFromDB,
 } from '../../state/Order/orderAction.js';
 import { Button } from 'react-bootstrap';
+import ReviewModal from './OrderReviewModal'; // Import the ReviewModal component
 
 const OrderItemComponent = (props) => {
   const { item } = props;
   const dispatchToDB = useDispatch();
   const [delivered, setDelivered] = useState(false);
   const [formattedOrderDate, setFormattedOrderDate] = useState('');
+  const [showReviewModal, setShowReviewModal] = useState(false);
 
   // Calculate if 2 days have passed since the order date
   useEffect(() => {
@@ -31,13 +33,13 @@ const OrderItemComponent = (props) => {
     // Format order date
     const formattedDate = orderDate.toLocaleDateString('en-GB'); // Adjust locale as needed
     setFormattedOrderDate(formattedDate);
-  }, [dispatchToDB]);
+  }, [dispatchToDB, item]);
 
   const handleCancel = () => {
     dispatchToDB(CancelOrderToDB(item._id, item.userId));
   };
 
-  let handleReorder = () => {
+  const handleReorder = () => {
     const currentDate = new Date();
 
     let newOrder = {
@@ -50,12 +52,17 @@ const OrderItemComponent = (props) => {
     };
 
     dispatchToDB(SaveOrderToDB(newOrder));
-    alert('reordered');
+    alert('Reordered successfully');
     //dispatchToDB(getOrdersFromDB(item.userId));
   };
 
   const handleReview = () => {
-    alert('review');
+    setShowReviewModal(true);
+  };
+
+  const handleCloseReviewModal = () => {
+    setShowReviewModal(false);
+    // Optionally reset review data here if needed
   };
 
   return (
@@ -83,12 +90,20 @@ const OrderItemComponent = (props) => {
       </td>
       <td>
         {item.status === 'DELIVERED' && (
-          <Button
-            onClick={handleReview}
-            variant="info"
-          >
-            Review
-          </Button>
+          <>
+            <Button
+              onClick={handleReview}
+              variant="info"
+            >
+              Review
+            </Button>
+            <ReviewModal
+              show={showReviewModal}
+              handleClose={handleCloseReviewModal}
+              order={item.order} // Pass the items of the order to the modal
+              user={item.userId}
+            />
+          </>
         )}
       </td>
     </tr>

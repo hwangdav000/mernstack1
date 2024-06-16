@@ -56,6 +56,25 @@ export const SaveCartToDB = (cart) => {
   };
 };
 
+export const SaveCartToDB2 = (cart) => {
+  return (dispatch) => {
+    axios
+      .post(
+        'http://localhost:9000/cart/api/savecart', //uri or end point of singninup api
+        cart // the user state object we dispatch from the user component
+      )
+      .then((response) => {
+        let loggedCart = response.data;
+        console.log('logged data', loggedCart);
+        //dispatch(AddCart(loggedCart));
+        //alert('cart has been submitted');
+      })
+      .catch((err) => {
+        console.log('error while saving', err);
+      });
+  };
+};
+
 // Clear cart
 export const ClearCartToDB = (id) => {
   return (dispatch) => {
@@ -81,6 +100,7 @@ export const getCartFromDB = (id) => {
       .get(path)
       .then((response) => {
         const cart = response.data;
+        console.log(cart);
         dispatch(GetCart(cart));
       })
       .catch((error) => {

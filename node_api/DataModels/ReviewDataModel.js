@@ -16,8 +16,9 @@ let reviewSchema = new schemaObj(
       required: true,
       ref: 'users',
     },
-    starRating: Number,
+    rating: Number,
     comment: String,
+    productName: String,
   },
   {
     versionKey: false, //false - set to false then it wont create in mongodb

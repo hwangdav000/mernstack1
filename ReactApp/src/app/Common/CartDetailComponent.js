@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getCartFromDB,
   SaveCartToDB,
+  SaveCartToDB2,
   removeItem,
   updateItem,
   ClearCartToDB,
@@ -11,7 +12,8 @@ import { Col, Row, Button, Table } from 'react-bootstrap';
 import { SaveOrderToDB } from '../../state/Order/orderAction.js';
 import StoreItem from './StoreItem.js';
 import { set } from 'mongoose';
-import CartItemComponent from './CartItemComponent';
+import CheckoutItem from './CheckoutItem.js';
+import CheckoutSummary from './CheckoutSummary.js';
 
 const CartDetail = () => {
   // Need to show the Name and Address of the user
@@ -42,29 +44,7 @@ const CartDetail = () => {
     if (!user._id) {
       alert('Please sign in to save the cart!!!');
     } else {
-      dispatchToDB(SaveCartToDB(newCart));
-    }
-  };
-
-  let purchaseCart = () => {
-    const currentDate = new Date();
-    console.log(currentDate);
-    let newOrder = {
-      userId: user._id,
-      status: 'IN TRANSIT',
-      orderDate: currentDate,
-      price: totalPrice,
-      userName: userName,
-      order: cartList,
-    };
-    if (!user._id) {
-      alert('Please sign in to save the cart!!!');
-    } else {
-      dispatchToDB(SaveOrderToDB(newOrder));
-      alert('Cart has been purchased');
-
-      // need to clear the cart
-      dispatchToDB(ClearCartToDB(user._id));
+      dispatchToDB(SaveCartToDB2(newCart));
     }
   };
 
@@ -72,19 +52,6 @@ const CartDetail = () => {
   const userCart = useSelector((store) => store.cartReducer.cart);
   const cartList = userCart ? userCart.cartList : [];
   // Calculate total price only when cartList is available
-
-  // check if coupon value is correct and apply to total price
-  let applyCoupon = () => {
-    if (couponValue == couponStoreValue) {
-      alert('valid coupon');
-      setCouponApplied(true);
-    } else {
-      console.log(couponValue);
-      console.log(couponStoreValue);
-      setCouponApplied(false);
-      alert('invalid coupon');
-    }
-  };
 
   useEffect(() => {
     dispatchToDB(getCartFromDB(user._id));
@@ -106,6 +73,7 @@ const CartDetail = () => {
         setTotalPrice(calculatedTotalPrice);
       }
     }
+    clickToSaveCart();
   }, [cartList, couponApplied]);
   // at the end there will be a total
   console.log('cartList ', cartList);
@@ -117,67 +85,52 @@ const CartDetail = () => {
 
   console.log('orderList ', orderList);
   return (
-    <>
-      <div>
-        <h1>Cart Details</h1>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-9">
+          <div>
+            <div className="row">
+              <div className="col-md-6">
+                <h2>Your Cart</h2>
+              </div>
+            </div>
+            <ul className="list-group list-group-flush">
+              {cartList.map((item) => {
+                //return item.name
+                return (
+                  <CheckoutItem
+                    item={item}
+                    key={item._id}
+                  />
+                );
+              })}
 
-        <Table
-          striped
-          bordered
-          hover
-        >
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total Price</th>
-              <th>Remove</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartList.map((item) => {
-              //return item.name
-              return (
-                <CartItemComponent
-                  item={item}
-                  key={item._id}
-                />
-              );
-            })}
-          </tbody>
-        </Table>
-        <Button onClick={() => clickToSaveCart()}>Save Cart</Button>
-        <div>
-          Apply Coupon:
-          <input
-            type="text"
-            value={couponValue}
-            onChange={(evt) => {
-              setCouponValue(evt.target.value);
-            }}
-          ></input>
-          <Button onClick={() => applyCoupon()}>Apply Coupon</Button>
+              <li className="list-group-item">
+                <h2>Shipping Details</h2>
+                <p>
+                  <strong>Name:</strong> {user.userName}
+                </p>
+                <p>
+                  <strong>Mobile:</strong> {user.mobile}
+                </p>
+                <p>
+                  <strong>Address:</strong> {user.street}
+                </p>
+                {/*
+                <div className="alert alert-primary">
+                  <i className="bi bi-info-circle"></i> Please confirm the
+                  address details above
+                </div>
+                */}
+              </li>
+            </ul>
+          </div>
         </div>
-
-        <h1>Total Price: {totalPrice}</h1>
-        <br></br>
-        <h1>User Details</h1>
-        <p>Name: {userName}</p>
-        <p>Address: {userAddress}</p>
-        <br></br>
-
-        <Button
-          variant="primary"
-          onClick={() => purchaseCart()}
-          size="lg"
-          className="mx-auto d-block mt-5 mb-3"
-        >
-          Purchase Cart
-        </Button>
+        <div className="col-md-3">
+          <CheckoutSummary cartList={cartList} />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

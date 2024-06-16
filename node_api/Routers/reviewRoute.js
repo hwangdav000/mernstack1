@@ -5,39 +5,26 @@ let ReviewDataModel = require('../DataModels/ReviewDataModel'); //this gives acc
 
 //we'll accept the user object as req.body, use it to map with user.schema key value pair
 //initialize the userModel, if no validation error, then use the mongoose method to save user
-reviewRouter.post('/api/savereview', (req, res) => {
-  //localhost:9000/user/api/signinup
-  console.log(req.body); //json data posted from API in body
-  //initialize the userSchema
+reviewRouter.post('/api/saveReviews', async (req, res) => {
+  try {
+    let reviews = req.body.reviews;
+    // Save each review using Promise.all
+    const savedReviews = await Promise.all(
+      reviews.map((review) => {
+        return ReviewDataModel.create(review); // Create a new review document for each item in the array
+      })
+    );
 
-  ReviewDataModel.findOne({ reviewName: req.body.reviewName })
-    .then((existingReview) => {
-      if (existingReview) {
-        console.log('already existing review ', existingReview);
-        res.send(existingReview);
-      } else {
-        //if user object is not present in users collection so we need to create
-        //new user and this is sign up
+    console.log('Saved reviews:', savedReviews);
 
-        let newReview = new ReviewDataModel(req.body);
-
-        newReview
-          .save()
-          .then((newReview) => {
-            //will get _id once document is created
-            console.log('created review', newReview);
-            res.send(newReview);
-          })
-          .catch((err1) => {
-            console.log('err review', err1);
-            res.send('error while creating review');
-          });
-      }
-    })
-    .catch((err) => {
-      console.log('err sign in', err);
-      res.send('error while searching user sign in');
-    });
+    // Respond with success message and saved reviews
+    res
+      .status(201)
+      .json({ message: 'Reviews saved successfully', reviews: savedReviews });
+  } catch (error) {
+    console.error('Error saving reviews:', error);
+    res.status(500).json({ error: 'Failed to save reviews' });
+  }
 });
 
 //code to fetch all the users from user collection and return back

@@ -54,7 +54,7 @@ app.use('/order', orderApp);
 orderApp.use(orderRouter);
 
 app.use('/review', reviewApp);
-orderApp.use(reviewRouter);
+reviewApp.use(reviewRouter);
 
 app.use('/', defaultRouter);
 
