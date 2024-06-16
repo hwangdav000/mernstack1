@@ -16,6 +16,25 @@ export const GetCart = (cart) => {
   };
 };
 
+export const removeItem = (id) => ({
+  type: actionTypes.REMOVE_ITEM,
+  payload: { id }, //id: 4
+});
+
+export const updateItem = (id, qty) => ({
+  type: actionTypes.UPDATE_ITEM,
+  payload: {
+    id, //id : 5
+    quantity: parseInt(qty), // update the quantity
+  },
+});
+
+export const clearCart = () => {
+  return {
+    type: actionTypes.CLEAR_CART,
+  };
+};
+
 //server call
 //to save user to mongo db and do sign-in or sign up
 export const SaveCartToDB = (cart) => {
@@ -27,9 +46,26 @@ export const SaveCartToDB = (cart) => {
       )
       .then((response) => {
         let loggedCart = response.data;
-        console.log(loggedCart);
+        console.log('logged data', loggedCart);
         dispatch(AddCart(loggedCart));
-        alert('cart has been submitted');
+        //alert('cart has been submitted');
+      })
+      .catch((err) => {
+        console.log('error while saving', err);
+      });
+  };
+};
+
+// Clear cart
+export const ClearCartToDB = (id) => {
+  return (dispatch) => {
+    axios
+      .delete('http://localhost:9000/cart/api/clearCart/' + id)
+      .then((response) => {
+        let loggedCart = response.data;
+        console.log('logged data', loggedCart);
+        dispatch(clearCart());
+        //alert('cart has been submitted');
       })
       .catch((err) => {
         console.log('error while saving', err);

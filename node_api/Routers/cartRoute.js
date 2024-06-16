@@ -60,4 +60,37 @@ cartRouter.get('/api/getCart/:userId', (req, res) => {
     });
 });
 
+// clear cart
+cartRouter.delete('/api/clearCart/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  // Find the cart associated with the user ID
+  CartDataModel.findOne({ userId: userId })
+    .then((cart) => {
+      if (cart) {
+        // Clear the cartItems array
+        cart.cartItems = [];
+
+        // Save the updated cart
+        cart
+          .save()
+          .then((updatedCart) => {
+            console.log('Cart cleared successfully');
+            res.send(updatedCart);
+          })
+          .catch((err) => {
+            console.log('Error clearing cart:', err);
+            res.status(500).send('Error clearing cart');
+          });
+      } else {
+        console.log('Cart not found for user:', userId);
+        res.status(404).send('Cart not found');
+      }
+    })
+    .catch((err) => {
+      console.log('Error finding cart:', err);
+      res.status(500).send('Error finding cart');
+    });
+});
+
 module.exports = cartRouter;

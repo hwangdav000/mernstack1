@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import office from '../images/office.png';
-import Excel from '../images/excel.png';
+import excel from '../images/excel.png';
 import m365 from '../images/m365.png';
+import office from '../images/office.png';
 import powerpoint from '../images/powerpoint.png';
 
-// Functional component using arrow function
 const StoreItem = (props) => {
   const {
     _id,
@@ -16,20 +15,60 @@ const StoreItem = (props) => {
     picURL,
     addToCart,
     subtractToCart,
+    initQuantity,
   } = props;
-  let [quantity, setQ] = useState(0);
+
+  const [quantity, setQuantity] = useState(initQuantity);
+
+  // useEffect to set initial quantity when component mounts
+  useEffect(() => {
+    setQuantity(initQuantity);
+  }, [initQuantity]); // run this effect only when initQuantity changes
 
   const addToItem = (evt) => {
     evt.preventDefault();
-    console.log('this is ' + _id);
-    addToCart(productName, _id);
-    setQ(quantity + 1);
+    const success = addToCart(productName, _id, price);
+    if (success !== -1) {
+      setQuantity((prevQuantity) => prevQuantity + 1); // update quantity immutably
+    }
   };
 
   const subtractToItem = (evt) => {
     evt.preventDefault();
-    subtractToCart(productName);
-    setQ(quantity - 1);
+    if (quantity > 0) {
+      subtractToCart(productName);
+      setQuantity((prevQuantity) => prevQuantity - 1); // update quantity immutably
+    }
+  };
+
+  // Function to generate star icons based on rating
+  const renderStars = () => {
+    const stars = [];
+    const totalStars = 5;
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating - fullStars >= 0.5;
+
+    // Full stars
+    for (let i = 0; i < rating; i++) {
+      stars.push(
+        <i
+          key={i}
+          className="fa fa-star text-warning"
+        ></i>
+      );
+    }
+
+    // Half star
+    if (hasHalfStar) {
+      stars.push(
+        <i
+          key="half"
+          className="fa fa-star-half-o text-warning"
+        ></i>
+      );
+    }
+
+    return stars;
   };
 
   return (
@@ -40,35 +79,26 @@ const StoreItem = (props) => {
         height="200px"
         style={{ objectFit: 'cover' }}
       />
-      <Card.Body className="d-flex flex-column ">
-        <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-          <span className="fs-2">{productName}</span>
-          <span className="ms-2 text-muted">${price}</span>
-        </Card.Title>
-        <div className="mt-auto text-center">
+      <Card.Body className="d-flex flex-column">
+        <div className="d-flex justify-content-between mb-3 align-items-start">
+          <div>
+            <span className="fs-2">{productName}</span>
+            <div className="text-right">
+              <div className="mt-1">Rating: {renderStars()}</div>
+            </div>
+            <span className="text-muted">Price: ${price}</span>
+          </div>
+        </div>
+        <div className="text-center mt-auto">
           {quantity === 0 ? (
             <Button onClick={addToItem}>+ Add to Cart </Button>
           ) : (
-            <div
-              className="d-flex align-items-center flex-column"
-              style={{ gap: '.5rem' }}
-            >
-              <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ gap: '.5rem' }}
-              >
-                <Button onClick={subtractToItem}>-</Button>
-                <div>
-                  <span className="fs-3">{quantity}</span> In cart
-                </div>
-                <Button onClick={addToItem}>+</Button>
+            <div className="d-flex align-items-center justify-content-center">
+              <Button onClick={subtractToItem}>-</Button>
+              <div>
+                <span className="fs-3">{quantity}</span> In cart
               </div>
-              {/* <Button
-                variant="danger"
-                size="sm"
-              >
-                Remove
-              </Button> */}
+              <Button onClick={addToItem}>+</Button>
             </div>
           )}
         </div>

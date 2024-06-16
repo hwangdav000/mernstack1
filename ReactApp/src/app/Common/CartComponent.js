@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getCartFromDB, SaveCartToDB } from '../../state/Cart/cartAction';
 import { Col, Row, Button } from 'react-bootstrap';
 import {
@@ -9,6 +10,7 @@ import {
 import StoreItem from './StoreItem.js';
 import { set } from 'mongoose';
 const Cart = () => {
+  const navigate = useNavigate();
   // Get list of products
   let ProductList = useSelector((state) => state.productReducer.productList);
   console.log(ProductList);
@@ -16,54 +18,62 @@ const Cart = () => {
   const user = useSelector((store) => store.userReducer.user);
   const dispatchToDB = useDispatch();
 
-  const [cartItems, setCartItems] = useState([]);
-  const [cartItemsInfo, setCartItemsInfo] = useState([]);
+  const userCart = useSelector((store) => store.cartReducer.cart);
+  const cartList = userCart ? userCart.cartList : [];
 
-  const handleIncrement = (productName, productId) => {
+  const [cartItems, setCartItems] = useState(cartList);
+
+  useEffect(() => {
+    setCartItems(cartList);
+  }, [cartList]);
+
+  const handleIncrement = (productName, productId, price) => {
+    if (!user._id) {
+      alert('Please Sign In to Add to Cart');
+      return -1;
+    }
     const itemIdx = cartItems.findIndex(
       (item) => item.productName === productName
     );
+    let updatedCartItems = [...cartItems];
     if (itemIdx === -1) {
-      setCartItems([...cartItems, { productName, productId, quantity: 1 }]);
+      updatedCartItems = [
+        ...cartItems,
+        { productName, productId, price, quantity: 1 },
+      ];
     } else {
-      let updatedCartItems = [...cartItems];
       updatedCartItems[itemIdx].quantity += 1;
-      setCartItems(updatedCartItems);
     }
+    setCartItems(updatedCartItems);
+    //saveCart(updatedCartItems);
+    return 1;
   };
 
   const handleDecrement = (productName) => {
     const itemIdx = cartItems.findIndex(
       (item) => item.productName === productName
     );
-
+    let updatedCartItems = [...cartItems];
     if (itemIdx !== -1) {
-      let updatedCartItems = [...cartItems];
-      let itemCount = updatedCartItems[itemIdx].quantity;
-
-      if (itemCount === 1) {
-        // Filter out the item
+      if (updatedCartItems[itemIdx].quantity === 1) {
         updatedCartItems = updatedCartItems.filter(
           (item) => item.productName !== productName
         );
       } else {
-        // Decrement the quantity
         updatedCartItems[itemIdx].quantity -= 1;
       }
-
-      // Update the state with the modified array
       setCartItems(updatedCartItems);
+      //saveCart(updatedCartItems);
     } else {
       console.log('Error handling decrement');
     }
   };
 
-  let saveCart = (evt) => {
-    evt.preventDefault();
+  let saveCart = (updatedCartItems) => {
     let newCart = {
       userId: user._id,
       userName: user.userName,
-      cartItems,
+      cartItems: updatedCartItems,
     };
     console.log(newCart);
 
@@ -74,9 +84,19 @@ const Cart = () => {
     }
   };
 
+  let navCart = () => {
+    saveCart(cartItems);
+    if (user._id !== '') {
+      navigate('/cartDetail');
+    } else {
+      alert('Please Sign In to Add to Cart');
+    }
+  };
+
   // later when showing cart
   useEffect(() => {
     dispatchToDB(getProductsFromDB());
+    dispatchToDB(getCartFromDB(user._id));
     // dispatch(getCartFromDB(user._id));
   }, [dispatchToDB]);
 
@@ -84,7 +104,7 @@ const Cart = () => {
   // const userCart = useSelector((store) => store.cartReducer.cart);
   // const cartItems = userCart.cartList;
   // console.log(cartItems)
-  console.log(cartItems);
+  console.log('cart items', cartItems);
   return (
     <>
       <h1>Store</h1>
@@ -94,24 +114,33 @@ const Cart = () => {
         lg={3}
         className="g-3"
       >
-        {ProductList.map((item, index) => (
-          <Col key={index}>
-            <StoreItem
-              {...item}
-              addToCart={handleIncrement}
-              subtractToCart={handleDecrement}
-            />
-          </Col>
-        ))}
+        {ProductList.map((item) => {
+          const cartItem = cartItems.find(
+            (cartItem) => cartItem.productId === item._id
+          );
+
+          const quantity = cartItem ? cartItem.quantity : 0;
+          console.log('q', quantity);
+          return (
+            <Col key={item._id}>
+              <StoreItem
+                {...item}
+                addToCart={handleIncrement}
+                subtractToCart={handleDecrement}
+                initQuantity={quantity}
+              />
+            </Col>
+          );
+        })}
       </Row>
       <div>
         <Button
           variant="primary"
-          onClick={saveCart}
+          onClick={() => navCart()}
           size="lg"
           className="mx-auto d-block mt-5 mb-3"
         >
-          Submit Cart
+          Save Cart and Checkout
         </Button>
       </div>
     </>

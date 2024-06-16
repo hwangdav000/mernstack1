@@ -62,19 +62,6 @@ summary {
   display: block; }
 
 /**
- * 1. Correct `inline-block` display not defined in IE 8/9.
- * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
- */
-audio,
-canvas,
-progress,
-video {
-  display: inline-block;
-  /* 1 */
-  vertical-align: baseline;
-  /* 2 */ }
-
-/**
  * Prevent modern browsers from displaying `audio` without controls.
  * Remove excess height in iOS 5 devices.
  */
@@ -2690,7 +2677,6 @@ nav {
   padding: 0 0.6em;
   background: #fff;
   box-shadow: 0 0 0.2em rgba(17, 17, 17, 0.2);
-  z-index: 10000;
   transition: all .3s;
   transform-style: preserve-3d; }
   nav .brand,
