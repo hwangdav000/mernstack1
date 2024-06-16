@@ -4,13 +4,13 @@ import excel from '../images/excel.png';
 import m365 from '../images/m365.png';
 import office from '../images/office.png';
 import powerpoint from '../images/powerpoint.png';
+import ProductReviewModal from './ProductReviewModal';
 
 const StoreItem = (props) => {
   const {
     _id,
     productName,
     price,
-    desc,
     rating,
     picURL,
     addToCart,
@@ -19,11 +19,7 @@ const StoreItem = (props) => {
   } = props;
 
   const [quantity, setQuantity] = useState(initQuantity);
-
-  // useEffect to set initial quantity when component mounts
-  useEffect(() => {
-    setQuantity(initQuantity);
-  }, [initQuantity]); // run this effect only when initQuantity changes
+  const [showReviewModal, setShowReviewModal] = useState(false); // State to manage review modal visibility
 
   const addToItem = (evt) => {
     evt.preventDefault();
@@ -39,6 +35,10 @@ const StoreItem = (props) => {
       subtractToCart(productName);
       setQuantity((prevQuantity) => prevQuantity - 1); // update quantity immutably
     }
+  };
+
+  const openReviewModal = () => {
+    setShowReviewModal(true); // Function to open the review modal
   };
 
   // Function to generate star icons based on rating
@@ -68,7 +68,14 @@ const StoreItem = (props) => {
       );
     }
 
-    return stars;
+    return (
+      <div
+        className="stars-container"
+        onClick={openReviewModal}
+      >
+        {stars}
+      </div>
+    );
   };
 
   return (
@@ -85,13 +92,21 @@ const StoreItem = (props) => {
             <span className="fs-2">{productName}</span>
             <div className="text-right">
               <div className="mt-1">Rating: {renderStars()}</div>
+              {/* Product Review Modal */}
+              {showReviewModal && (
+                <ProductReviewModal
+                  show={showReviewModal}
+                  handleClose={() => setShowReviewModal(false)}
+                  productId={_id} // Pass the product ID to fetch reviews for this product
+                />
+              )}
             </div>
             <span className="text-muted">Price: ${price}</span>
           </div>
         </div>
         <div className="text-center mt-auto">
           {quantity === 0 ? (
-            <Button onClick={addToItem}>+ Add to Cart </Button>
+            <Button onClick={addToItem}>+ Add to Cart</Button>
           ) : (
             <div className="d-flex align-items-center justify-content-center">
               <Button onClick={subtractToItem}>-</Button>

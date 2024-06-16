@@ -38,4 +38,21 @@ reviewRouter.get('/api/getReviews', (req, res) => {
     });
 });
 
+//code to fetch all the users from user collection and return back
+reviewRouter.get('/api/getReviews/:productId', (req, res) => {
+  const productId = req.params.productId;
+  ReviewDataModel.find({ productId: productId })
+    .then((reviews) => {
+      if (reviews) {
+        res.send(reviews);
+      } else {
+        console.log('reviews not found');
+      }
+    })
+    .catch((err) => {
+      console.log('err review', err);
+      res.send('error while getting reviews');
+    });
+});
+
 module.exports = reviewRouter;
