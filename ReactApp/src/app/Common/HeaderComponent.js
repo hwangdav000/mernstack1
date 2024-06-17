@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
 import Shopping from './ShoppingComponent.js';
+import Notification from './NotificationComponent.js';
+import {
+  getCartFromDB,
+  SaveCartToDB,
+  SaveCartToDB2,
+} from '../../state/Cart/cartAction';
+import { useSelector, useDispatch } from 'react-redux';
 
 let Header = (props) => {
   //allows us to read data from store/reducer as we do with mapStateToProps
@@ -14,6 +21,17 @@ let Header = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const notifs = useSelector(
+    (store) => store.notificationReducer.notifications
+  );
+
+  const dispatchToDB = useDispatch();
+  useEffect(() => {
+    if (user._id !== '') {
+      dispatchToDB(getCartFromDB(user._id));
+    }
+  }, [dispatchToDB, user._id]);
+
   //useDispatch
   console.log(user);
 
@@ -22,12 +40,12 @@ let Header = (props) => {
   console.log('Header login state', userLoginHeader);
   console.log('User ', user);
 
-  const openCart = () => {
+  const openNotif = () => {
     console.log('click open cart');
     setIsOpen(true);
   };
 
-  const closeCart = () => {
+  const closeNotif = () => {
     setIsOpen(false);
   };
 
@@ -94,7 +112,7 @@ let Header = (props) => {
                     Orders{' '}
                   </NavLink>
                   <Button
-                    onClick={() => openCart()}
+                    onClick={() => openNotif()}
                     variant=""
                   >
                     <div
@@ -108,6 +126,40 @@ let Header = (props) => {
                   </Button>
                 </>
               )}
+              <Button
+                onClick={() => openNotif()}
+                variant="outline-light"
+                className="rounded-circle"
+                style={{ position: 'relative' }}
+              >
+                <i
+                  style={{
+                    width: '1.3rem',
+                    height: '1.3rem',
+                    paddingTop: '.3rem',
+                  }}
+                  className="fas fa-solid fa-bell"
+                ></i>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '1.5rem',
+                    right: '-0.5rem',
+                    width: '1.5rem',
+                    height: '1.5rem',
+                    backgroundColor: 'red',
+                    color: 'white',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    fontSize: '0.9rem',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {notifs.length}
+                </div>
+              </Button>
             </Nav>
 
             <Navbar.Text
@@ -120,9 +172,10 @@ let Header = (props) => {
         </Container>
       </Navbar>
       {isOpen && (
-        <Shopping
+        <Notification
           isOpen={isOpen}
-          closeCart={closeCart}
+          closeNotif={closeNotif}
+          notifs={notifs}
         />
       )}
     </>

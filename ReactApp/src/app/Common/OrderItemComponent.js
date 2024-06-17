@@ -6,6 +6,7 @@ import {
   SaveOrderToDB,
   getOrdersFromDB,
 } from '../../state/Order/orderAction.js';
+import { AddNotification } from '../../state/Notification/notificationAction.js';
 import { Button } from 'react-bootstrap';
 import ReviewModal from './OrderReviewModal'; // Import the ReviewModal component
 
@@ -36,7 +37,12 @@ const OrderItemComponent = (props) => {
   }, [dispatchToDB, item]);
 
   const handleCancel = () => {
+    let cancelNotif = {
+      message: 'User has canceled order ' + item._id,
+      navigate: '/order',
+    };
     dispatchToDB(CancelOrderToDB(item._id, item.userId));
+    dispatchToDB(AddNotification(cancelNotif));
   };
 
   const handleReorder = () => {

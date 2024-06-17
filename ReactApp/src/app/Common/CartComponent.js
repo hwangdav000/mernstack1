@@ -6,6 +6,7 @@ import {
   SaveCartToDB,
   SaveCartToDB2,
 } from '../../state/Cart/cartAction';
+import { AddNotification } from '../../state/Notification/notificationAction.js';
 import { Col, Row, Button } from 'react-bootstrap';
 import {
   SaveProductToDBUsingFetch,
@@ -90,7 +91,17 @@ const Cart = () => {
   };
 
   let navCart = () => {
+    let quantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+    let cartNotification = {
+      message: quantity + ' items added to the Cart',
+      navigate: '/cartDetail',
+    };
+
     if (user._id !== '') {
+      if (quantity > 0) {
+        dispatchToDB(AddNotification(cartNotification));
+      }
+
       navigate('/cartDetail');
     } else {
       alert('Please Sign In to Add to Cart');
@@ -105,7 +116,7 @@ const Cart = () => {
 
   useEffect(() => {
     setCartItems(cartList);
-  }, [cartList]);
+  }, [userCart, cartList]);
 
   console.log('cart items', cartItems);
   return (
