@@ -48,6 +48,10 @@ const StoreItem = (props) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating - fullStars >= 0.5;
 
+    if (rating == -1) {
+      return <div className="stars-container">No Ratings</div>;
+    }
+
     // Full stars
     for (let i = 0; i < rating; i++) {
       stars.push(
