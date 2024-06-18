@@ -41,23 +41,22 @@ const StoreItem = (props) => {
     setShowReviewModal(true); // Function to open the review modal
   };
 
-  // Function to generate star icons based on rating
   const renderStars = () => {
     const stars = [];
     const totalStars = 5;
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating - fullStars >= 0.5;
 
-    if (rating == -1) {
+    if (rating === 0) {
       return <div className="stars-container">No Ratings</div>;
     }
 
     // Full stars
-    for (let i = 0; i < rating; i++) {
+    for (let i = 0; i < fullStars; i++) {
       stars.push(
         <i
-          key={i}
-          className="fa fa-star text-warning"
+          key={`full-${i}`}
+          className="fa-solid fa-star text-warning"
         ></i>
       );
     }
@@ -67,10 +66,22 @@ const StoreItem = (props) => {
       stars.push(
         <i
           key="half"
-          className="fa fa-star-half-o text-warning"
+          className="fa-solid fa-star-half text-warning"
         ></i>
       );
     }
+
+    // Empty stars
+    /*
+    const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(
+        <i
+          key={`empty-${i}`}
+          className="fa-regular fa-star text-warning"
+        ></i>
+      );
+    }*/
 
     return (
       <div

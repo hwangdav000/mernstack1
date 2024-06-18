@@ -36,6 +36,24 @@ export const SaveProductToDB = (newProduct) => {
   };
 };
 
+export const updateProductRating = (productRating) => {
+  return (dispatch) => {
+    axios
+      .post(
+        'http://localhost:9000/product/api/updateProductRating', //uri or end point of singninup api
+        productRating // the user state object we dispatch from the user component
+      )
+      .then((collection) => {
+        let loggedProduct = collection.data;
+        console.log(loggedProduct);
+        //dispatch(AddProductToStore(loggedProduct));
+      })
+      .catch((err) => {
+        console.log('error while saving', err);
+      });
+  };
+};
+
 export const SaveProductToDBUsingFetch = (newProduct) => {
   return (dispatch) => {
     window

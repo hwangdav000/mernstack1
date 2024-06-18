@@ -9,6 +9,7 @@ import '@fortawesome/fontawesome-free/js/fontawesome';
 import '@fortawesome/fontawesome-free/js/solid';
 import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 //creating root of the react application where we can load the react app
 const root = ReactDOM.createRoot(document.getElementById('root'));

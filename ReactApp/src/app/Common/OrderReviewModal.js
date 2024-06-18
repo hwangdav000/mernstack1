@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { SaveReviewsToDB } from '../../state/Review/reviewAction';
+import { updateProductRating } from '../../state/Product/productAction.js';
 
 const ReviewModal = ({ show, handleClose, order, user }) => {
   const dispatch = useDispatch();
@@ -42,9 +43,25 @@ const ReviewModal = ({ show, handleClose, order, user }) => {
       reviews: reviews,
     };
     console.log(reviewJson);
-    handleClose();
+
     dispatch(SaveReviewsToDB(reviewJson));
     alert('Reviews submitted successfully');
+    handleClose();
+    // update star ratings here
+
+    // iterate reviews
+    reviews.forEach((review) => {
+      updateRating(review.productId, review.rating);
+    });
+  };
+
+  // use another function to handle logic above
+  let updateRating = (productId, newRating) => {
+    let productRating = {
+      productId: productId,
+      newRating: newRating,
+    };
+    dispatch(updateProductRating(productRating));
   };
 
   return (
