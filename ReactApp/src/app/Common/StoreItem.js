@@ -56,7 +56,7 @@ const StoreItem = (props) => {
       stars.push(
         <i
           key={`full-${i}`}
-          className="fa-solid fa-star text-warning"
+          className="bi bi-star-fill text-warning"
         ></i>
       );
     }
@@ -66,22 +66,21 @@ const StoreItem = (props) => {
       stars.push(
         <i
           key="half"
-          className="fa-solid fa-star-half text-warning"
+          className="bi bi-star-half text-warning"
         ></i>
       );
     }
 
     // Empty stars
-    /*
     const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
     for (let i = 0; i < emptyStars; i++) {
       stars.push(
         <i
           key={`empty-${i}`}
-          className="fa-regular fa-star text-warning"
+          className="bi bi-star text-warning"
         ></i>
       );
-    }*/
+    }
 
     return (
       <div
