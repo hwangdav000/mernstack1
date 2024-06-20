@@ -1,6 +1,6 @@
 //action - is an object with two properties - type and payload
 import * as actionTypes from '../actionTypes';
-
+import { AddTokenToStore } from '../Token/tokenAction.js'; // Import token action
 import axios from 'axios';
 
 export const AddUserToStore = (user) => {
@@ -47,11 +47,16 @@ export const LoginUserDB = (user) => {
         user // the user state object we dispatch from the user component
       )
       .then((collection) => {
-        let loggedUser = collection.data;
+        let loggedUser = collection.data.existingUser;
+        let accessToken = collection.data.accessToken;
+        let refreshToken = collection.data.refreshToken;
         console.log(loggedUser);
+        console.log('access token', accessToken);
+        console.log('refresh token', refreshToken);
 
         dispatch(UpdateLoginToStore(true));
         dispatch(LoginUserToStore(loggedUser));
+        dispatch(AddTokenToStore({ accessToken, refreshToken }));
       })
       .catch((err) => {
         console.log('error while logging in ', err);

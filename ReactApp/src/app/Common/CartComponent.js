@@ -24,6 +24,9 @@ const Cart = () => {
   const user = useSelector((store) => store.userReducer.user);
   const dispatchToDB = useDispatch();
 
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
+  console.log('this is the access token in the cart', accessToken);
+
   const userCart = useSelector((store) => store.cartReducer.cart);
   const cartList = userCart ? userCart.cartList : [];
 
@@ -84,7 +87,7 @@ const Cart = () => {
     console.log(newCart);
 
     if (user._id !== '') {
-      dispatchToDB(SaveCartToDB2(newCart));
+      dispatchToDB(SaveCartToDB2(newCart, accessToken));
     } else {
       alert('Please Sign In to Add to Cart');
     }
@@ -110,9 +113,14 @@ const Cart = () => {
 
   // later when showing cart
   useEffect(() => {
-    dispatchToDB(getProductsFromDB());
-    dispatchToDB(getCartFromDB(user._id));
-  }, [dispatchToDB, user._id]);
+    if (!accessToken) {
+      console.log('waiting on access token');
+      return;
+    }
+
+    dispatchToDB(getProductsFromDB(accessToken));
+    dispatchToDB(getCartFromDB(user._id, accessToken));
+  }, [dispatchToDB, user._id, accessToken]);
 
   useEffect(() => {
     setCartItems(cartList);

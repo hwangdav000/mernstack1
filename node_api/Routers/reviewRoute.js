@@ -1,11 +1,12 @@
 let express = require('express');
 let reviewRouter = express.Router({}); //
+const { authenticateToken } = require('../Authentication/authenticate');
 
 let ReviewDataModel = require('../DataModels/ReviewDataModel'); //this gives access to all the methods defined in mongoose to access mongo db data
 
 //we'll accept the user object as req.body, use it to map with user.schema key value pair
 //initialize the userModel, if no validation error, then use the mongoose method to save user
-reviewRouter.post('/api/saveReviews', async (req, res) => {
+reviewRouter.post('/api/saveReviews', authenticateToken, async (req, res) => {
   try {
     let reviews = req.body.reviews;
     // Save each review using Promise.all
@@ -28,7 +29,7 @@ reviewRouter.post('/api/saveReviews', async (req, res) => {
 });
 
 //code to fetch all the users from user collection and return back
-reviewRouter.get('/api/getReviews', (req, res) => {
+reviewRouter.get('/api/getReviews', authenticateToken, (req, res) => {
   ReviewDataModel.find()
     .then((allreviews) => {
       res.send(allreviews);
@@ -39,20 +40,24 @@ reviewRouter.get('/api/getReviews', (req, res) => {
 });
 
 //code to fetch all the users from user collection and return back
-reviewRouter.get('/api/getReviews/:productId', (req, res) => {
-  const productId = req.params.productId;
-  ReviewDataModel.find({ productId: productId })
-    .then((reviews) => {
-      if (reviews) {
-        res.send(reviews);
-      } else {
-        console.log('reviews not found');
-      }
-    })
-    .catch((err) => {
-      console.log('err review', err);
-      res.send('error while getting reviews');
-    });
-});
+reviewRouter.get(
+  '/api/getReviews/:productId',
+  authenticateToken,
+  (req, res) => {
+    const productId = req.params.productId;
+    ReviewDataModel.find({ productId: productId })
+      .then((reviews) => {
+        if (reviews) {
+          res.send(reviews);
+        } else {
+          console.log('reviews not found');
+        }
+      })
+      .catch((err) => {
+        console.log('err review', err);
+        res.send('error while getting reviews');
+      });
+  }
+);
 
 module.exports = reviewRouter;

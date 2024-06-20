@@ -1,5 +1,3 @@
-//importing express top class and then creating express server
-
 const express = require('express'); //express class constructor
 const app = express(); //invoking the class to create express app server
 

@@ -1,9 +1,10 @@
 let express = require('express');
 let orderRouter = express.Router({}); //
+const { authenticateToken } = require('../Authentication/authenticate');
 
 let OrderDataModel = require('../DataModels/OrderDataModel'); //this gives access to all the methods defined in mongoose to access mongo db data
 
-orderRouter.post('/api/saveorder', async (req, res) => {
+orderRouter.post('/api/saveorder', authenticateToken, async (req, res) => {
   console.log(req.body);
 
   try {
@@ -19,7 +20,7 @@ orderRouter.post('/api/saveorder', async (req, res) => {
 });
 
 //code to fetch all the orders from user collection and return back
-orderRouter.get('/api/getOrders/:userId', (req, res) => {
+orderRouter.get('/api/getOrders/:userId', authenticateToken, (req, res) => {
   const userId = req.params.userId;
 
   OrderDataModel.find({ userId: userId })
@@ -37,7 +38,7 @@ orderRouter.get('/api/getOrders/:userId', (req, res) => {
     });
 });
 
-orderRouter.post('/api/cancelOrder/:orderId', (req, res) => {
+orderRouter.post('/api/cancelOrder/:orderId', authenticateToken, (req, res) => {
   const orderId = req.params.orderId;
 
   OrderDataModel.findOne({ _id: orderId })
@@ -60,27 +61,31 @@ orderRouter.post('/api/cancelOrder/:orderId', (req, res) => {
     });
 });
 
-orderRouter.post('/api/deliverOrder/:orderId', (req, res) => {
-  const orderId = req.params.orderId;
+orderRouter.post(
+  '/api/deliverOrder/:orderId',
+  authenticateToken,
+  (req, res) => {
+    const orderId = req.params.orderId;
 
-  OrderDataModel.findOne({ _id: orderId })
-    .then((existingOrder) => {
-      existingOrder.status = 'DELIVERED';
-      existingOrder
-        .save()
-        .then((updatedOrder) => {
-          console.log('Updated order status to delivered:', updatedOrder);
-          res.send(updatedOrder);
-        })
-        .catch((err) => {
-          console.log('Error updating order status:', err);
-          res.status(500).send('Error updating deliver status');
-        });
-    })
-    .catch((err) => {
-      console.log('Error finding order:', err);
-      res.status(500).send('Error finding order');
-    });
-});
+    OrderDataModel.findOne({ _id: orderId })
+      .then((existingOrder) => {
+        existingOrder.status = 'DELIVERED';
+        existingOrder
+          .save()
+          .then((updatedOrder) => {
+            console.log('Updated order status to delivered:', updatedOrder);
+            res.send(updatedOrder);
+          })
+          .catch((err) => {
+            console.log('Error updating order status:', err);
+            res.status(500).send('Error updating deliver status');
+          });
+      })
+      .catch((err) => {
+        console.log('Error finding order:', err);
+        res.status(500).send('Error finding order');
+      });
+  }
+);
 
 module.exports = orderRouter;

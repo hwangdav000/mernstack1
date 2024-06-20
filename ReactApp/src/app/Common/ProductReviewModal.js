@@ -4,14 +4,21 @@ import { Modal, Button } from 'react-bootstrap';
 import { getReviewsFromDB } from '../../state/Review/reviewAction'; // Import action to fetch reviews
 
 const ProductReviewModal = ({ show, handleClose, productId }) => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
+
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviewReducer.productReviews); // Get reviews array from Redux store
 
   useEffect(() => {
-    if (productId) {
-      dispatch(getReviewsFromDB(productId)); // Fetch reviews for the selected product
+    if (!accessToken) {
+      console.log('waiting on access token');
+      return;
     }
-  }, [dispatch, productId]);
+    if (productId) {
+      console.log('accessing reviews : ', accessToken);
+      dispatch(getReviewsFromDB(productId, accessToken)); // Fetch reviews for the selected product
+    }
+  }, [dispatch, productId, accesesToken]);
 
   return (
     <Modal

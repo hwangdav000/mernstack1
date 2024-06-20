@@ -16,6 +16,8 @@ import CheckoutItem from './CheckoutItem.js';
 import CheckoutSummary from './CheckoutSummary.js';
 
 const CartDetail = () => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
+
   // Need to show the Name and Address of the user
   const user = useSelector((store) => store.userReducer.user);
   const couponStoreValue = useSelector(
@@ -44,7 +46,7 @@ const CartDetail = () => {
     if (!user._id) {
       alert('Please sign in to save the cart!!!');
     } else {
-      dispatchToDB(SaveCartToDB2(newCart));
+      dispatchToDB(SaveCartToDB2(newCart, accessToken));
     }
   };
 
@@ -54,8 +56,12 @@ const CartDetail = () => {
   // Calculate total price only when cartList is available
 
   useEffect(() => {
-    dispatchToDB(getCartFromDB(user._id));
-  }, [dispatchToDB]);
+    if (!accessToken) {
+      console.log('waiting on access token');
+      return;
+    }
+    dispatchToDB(getCartFromDB(user._id, accessToken));
+  }, [dispatchToDB, accessToken]);
 
   useEffect(() => {
     // set total price

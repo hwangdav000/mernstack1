@@ -11,6 +11,8 @@ import { Button } from 'react-bootstrap';
 import ReviewModal from './OrderReviewModal'; // Import the ReviewModal component
 
 const OrderItemComponent = (props) => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
+  console.log('in order item component: ', accessToken);
   const { item } = props;
   const dispatchToDB = useDispatch();
   const [delivered, setDelivered] = useState(false);
@@ -19,6 +21,12 @@ const OrderItemComponent = (props) => {
 
   // Calculate if 2 days have passed since the order date
   useEffect(() => {
+    if (!accessToken) {
+      // If accessToken is not available, do not proceed further
+      console.log('Access token not available');
+      return;
+    }
+
     const orderDate = new Date(item.orderDate);
     const currentDate = new Date();
     const timeDifference = currentDate - orderDate;
@@ -27,21 +35,21 @@ const OrderItemComponent = (props) => {
     if (daysDifference >= 2) {
       setDelivered(true);
       if (item.status !== 'DELIVERED' && item.status !== 'CANCELED') {
-        dispatchToDB(DeliverOrderToDB(item._id, item.userId));
+        dispatchToDB(DeliverOrderToDB(item._id, item.userId, accessToken));
       }
     }
 
     // Format order date
     const formattedDate = orderDate.toLocaleDateString('en-GB'); // Adjust locale as needed
     setFormattedOrderDate(formattedDate);
-  }, [dispatchToDB, item]);
+  }, [dispatchToDB, item, accessToken]);
 
   const handleCancel = () => {
     let cancelNotif = {
       message: 'User has canceled order ' + item._id,
       navigate: '/order',
     };
-    dispatchToDB(CancelOrderToDB(item._id, item.userId));
+    dispatchToDB(CancelOrderToDB(item._id, item.userId, accessToken));
     dispatchToDB(AddNotification(cancelNotif));
   };
 
@@ -57,7 +65,7 @@ const OrderItemComponent = (props) => {
       order: item.order,
     };
 
-    dispatchToDB(SaveOrderToDB(newOrder));
+    dispatchToDB(SaveOrderToDB(newOrder, accessToken));
     alert('Reordered successfully');
     //dispatchToDB(getOrdersFromDB(item.userId));
   };

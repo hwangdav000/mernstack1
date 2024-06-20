@@ -37,12 +37,19 @@ export const clearCart = () => {
 
 //server call
 //to save user to mongo db and do sign-in or sign up
-export const SaveCartToDB = (cart) => {
+export const SaveCartToDB = (cart, accessToken) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
   return (dispatch) => {
     axios
       .post(
         'http://localhost:9000/cart/api/savecart', //uri or end point of singninup api
-        cart // the user state object we dispatch from the user component
+        cart, // the user state object we dispatch from the user component
+        config
       )
       .then((response) => {
         let loggedCart = response.data;
@@ -56,12 +63,19 @@ export const SaveCartToDB = (cart) => {
   };
 };
 
-export const SaveCartToDB2 = (cart) => {
+export const SaveCartToDB2 = (cart, accessToken) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
   return (dispatch) => {
     axios
       .post(
         'http://localhost:9000/cart/api/savecart', //uri or end point of singninup api
-        cart // the user state object we dispatch from the user component
+        cart, // the user state object we dispatch from the user component
+        config
       )
       .then((response) => {
         let loggedCart = response.data;
@@ -76,10 +90,15 @@ export const SaveCartToDB2 = (cart) => {
 };
 
 // Clear cart
-export const ClearCartToDB = (id) => {
+export const ClearCartToDB = (id, accessToken) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
   return (dispatch) => {
     axios
-      .delete('http://localhost:9000/cart/api/clearCart/' + id)
+      .delete('http://localhost:9000/cart/api/clearCart/' + id, config)
       .then((response) => {
         let loggedCart = response.data;
         console.log('logged data', loggedCart);
@@ -92,12 +111,17 @@ export const ClearCartToDB = (id) => {
   };
 };
 
-export const getCartFromDB = (id) => {
+export const getCartFromDB = (id, accessToken) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
   return (dispatch) => {
     console.log(id);
     var path = 'http://localhost:9000/cart/api/getCart/' + id;
     axios
-      .get(path)
+      .get(path, config)
       .then((response) => {
         const cart = response.data;
         console.log(cart);

@@ -18,12 +18,19 @@ export const GetProductToStore = (product) => {
 
 //server call
 //to save user to mongo db and do sign-in or sign up
-export const SaveProductToDB = (newProduct) => {
+export const SaveProductToDB = (newProduct, accessToken) => {
+  // Set up config with authorization header
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
   return (dispatch) => {
     axios
       .post(
         'http://localhost:9000/product/api/saveproduct', //uri or end point of singninup api
-        newProduct // the user state object we dispatch from the user component
+        newProduct, // the user state object we dispatch from the user component
+        config
       )
       .then((collection) => {
         let loggedProduct = collection.data;
@@ -36,12 +43,19 @@ export const SaveProductToDB = (newProduct) => {
   };
 };
 
-export const updateProductRating = (productRating) => {
+export const updateProductRating = (productRating, accessToken) => {
   return (dispatch) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
     axios
       .post(
         'http://localhost:9000/product/api/updateProductRating', //uri or end point of singninup api
-        productRating // the user state object we dispatch from the user component
+        productRating, // the user state object we dispatch from the user component
+        config
       )
       .then((collection) => {
         let loggedProduct = collection.data;
@@ -54,14 +68,17 @@ export const updateProductRating = (productRating) => {
   };
 };
 
-export const SaveProductToDBUsingFetch = (newProduct) => {
+export const SaveProductToDBUsingFetch = (newProduct, accessToken) => {
   return (dispatch) => {
+    // Set up axios request with authorization header
+
     window
       .fetch('http://localhost:9000/product/api/saveproduct', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(newProduct),
       })
@@ -77,10 +94,17 @@ export const SaveProductToDBUsingFetch = (newProduct) => {
   };
 };
 
-export const getProductsFromDB = () => {
+export const getProductsFromDB = (accessToken) => {
   return (dispatch) => {
+    // Set up axios request with authorization header
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
     axios
-      .get('http://localhost:9000/product/api/getProducts')
+      .get('http://localhost:9000/product/api/getProducts', config)
       .then((response) => {
         const products = response.data; // Assuming the response contains an array of product objects
         console.log(products);

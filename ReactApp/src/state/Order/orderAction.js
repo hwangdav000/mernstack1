@@ -23,12 +23,20 @@ export const cancelOrder = (id) => ({
 
 //server call
 //to save user to mongo db and do sign-in or sign up
-export const SaveOrderToDB = (order) => {
+export const SaveOrderToDB = (order, accessToken) => {
+  // Set up config with authorization header
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  console.log('save order before db ', accessToken);
   return (dispatch) => {
     axios
       .post(
         'http://localhost:9000/order/api/saveorder', //uri or end point of singninup api
-        order // the user state object we dispatch from the user component
+        order, // the user state object we dispatch from the user component
+        config
       )
       .then((response) => {
         let loggedOrder = response.data;
@@ -42,15 +50,22 @@ export const SaveOrderToDB = (order) => {
   };
 };
 
-export const CancelOrderToDB = (id, userId) => {
+export const CancelOrderToDB = (id, userId, accessToken) => {
+  // Set up config with authorization header
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
   return (dispatch) => {
     axios
-      .post('http://localhost:9000/order/api/cancelOrder/' + id)
+      .post('http://localhost:9000/order/api/cancelOrder/' + id, {}, config)
       .then((response) => {
         let loggedOrder = response.data;
         console.log('logged data', loggedOrder);
 
-        dispatch(getOrdersFromDB(userId));
+        dispatch(getOrdersFromDB(userId, accessToken));
         alert('canceled order');
       })
       .catch((err) => {
@@ -59,15 +74,23 @@ export const CancelOrderToDB = (id, userId) => {
   };
 };
 
-export const DeliverOrderToDB = (id, userId) => {
+export const DeliverOrderToDB = (id, userId, accessToken) => {
+  // Set up config with authorization header
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  console.log('this is before deliver order to db', config);
+
   return (dispatch) => {
     axios
-      .post('http://localhost:9000/order/api/deliverOrder/' + id)
+      .post(`http://localhost:9000/order/api/deliverOrder/${id}`, {}, config) // Empty data object
       .then((response) => {
         let loggedOrder = response.data;
         console.log('logged data', loggedOrder);
 
-        dispatch(getOrdersFromDB(userId));
+        dispatch(getOrdersFromDB(userId, accessToken));
       })
       .catch((err) => {
         console.log('error while saving', err);
@@ -75,19 +98,30 @@ export const DeliverOrderToDB = (id, userId) => {
   };
 };
 
-export const getOrdersFromDB = (id) => {
+export const getOrdersFromDB = (id, accessToken) => {
+  // Set up config with authorization header
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  console.log('inside orders from db: ', accessToken);
   return (dispatch) => {
-    console.log(id);
-    var path = 'http://localhost:9000/order/api/getOrders/' + id;
+    console.log('Requesting orders for ID:', id);
+    const path = `http://localhost:9000/order/api/getOrders/${id}`;
+
     axios
-      .get(path)
+      .get(path, config)
       .then((response) => {
         const orders = response.data;
         dispatch(GetOrders(orders));
-        console.log('get order from db', orders);
+        console.log('Orders retrieved from DB:', orders);
       })
       .catch((error) => {
-        console.error('Error fetching order:', error);
+        console.error(
+          'Error fetching order:',
+          error.response ? error.response.data : error.message
+        );
       });
   };
 };

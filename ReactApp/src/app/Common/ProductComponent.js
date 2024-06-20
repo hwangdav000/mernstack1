@@ -7,6 +7,8 @@ import {
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 
 let Product = (props) => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
+
   let Product = useSelector((store) => store.productReducer.product);
   let ProductList = useSelector((state) => state.productReducer.productList);
   const user = useSelector((store) => store.userReducer.user);
@@ -21,7 +23,7 @@ let Product = (props) => {
   let dispatchToDB = useDispatch();
 
   const handleButtonClick = () => {
-    dispatchToDB(getProductsFromDB());
+    dispatchToDB(getProductsFromDB(accessToken));
     setShowProducts(true);
   };
 
@@ -33,7 +35,7 @@ let Product = (props) => {
       rating: rating.current.value,
     };
     console.log(newProduct);
-    dispatchToDB(SaveProductToDBUsingFetch(newProduct));
+    dispatchToDB(SaveProductToDBUsingFetch(newProduct, accessToken));
 
     productName.current.value = '';
     price.current.value = '';

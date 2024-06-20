@@ -11,6 +11,7 @@ import { set } from 'mongoose';
 import OrderItemComponent from './OrderItemComponent.js';
 
 const Order = () => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
   // Need to show the Name and Address of the user
   const user = useSelector((store) => store.userReducer.user);
   const lOrders = useSelector((store) => store.orderReducer.ordersList);
@@ -24,8 +25,13 @@ const Order = () => {
   });
 
   useEffect(() => {
-    dispatchToDB(getOrdersFromDB(user._id));
-  }, [dispatchToDB]);
+    if (!accessToken) {
+      console.log('waiting on access token');
+      return;
+    }
+
+    dispatchToDB(getOrdersFromDB(user._id, accessToken));
+  }, [dispatchToDB, accessToken]);
 
   const toggleFilter = (filterName) => {
     setFilter((prevFilter) => ({

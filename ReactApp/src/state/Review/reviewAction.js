@@ -11,12 +11,20 @@ export const GetReviews = (Reviews) => {
 
 //server call
 //to save user to mongo db and do sign-in or sign up
-export const SaveReviewsToDB = (Reviews) => {
+export const SaveReviewsToDB = (Reviews, accessToken) => {
+  // Set up config with authorization header
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
   return (dispatch) => {
     axios
       .post(
         'http://localhost:9000/review/api/saveReviews', //uri or end point of singninup api
-        Reviews // the user state object we dispatch from the user component
+        Reviews, // the user state object we dispatch from the user component
+        config
       )
       .then((response) => {
         let loggedReview = response.data;
@@ -30,11 +38,18 @@ export const SaveReviewsToDB = (Reviews) => {
   };
 };
 
-export const getReviewsFromDB = (productId) => {
+export const getReviewsFromDB = (productId, accessToken) => {
+  // Set up config with authorization header
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
   return (dispatch) => {
     var path = 'http://localhost:9000/Review/api/getReviews/' + productId;
     axios
-      .get(path)
+      .get(path, config)
       .then((response) => {
         const Reviews = response.data;
         dispatch(GetReviews(Reviews));

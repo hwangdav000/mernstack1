@@ -29,3 +29,5 @@ export const GET_ORDER = 'STORE.GETORDER';
 export const CANCEL_ORDER = 'STORE.CANCELORDER';
 
 export const GET_REVIEWS = 'STORE.GETREVIEWS';
+
+export const ADD_TOKEN_TO_STORE = 'STORE.ADDTOKENS';

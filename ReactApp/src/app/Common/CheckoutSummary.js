@@ -12,15 +12,19 @@ import { Col, Row, Button, Table, Form } from 'react-bootstrap';
 import { SaveOrderToDB } from '../../state/Order/orderAction.js';
 
 const CartTotal = (props) => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
+  console.log('in cart total ', accessToken);
   // Get access to cart
   let cartList = props.cartList;
 
   // Get access to products from store
   const products = useSelector((store) => store.productReducer.productList);
   const user = useSelector((store) => store.userReducer.user);
+
   const couponStoreValue = useSelector(
     (store) => store.couponReducer.couponValue
   );
+
   // state for mapped cart items
   const [cartItems, setCartItems] = useState([]);
   const [couponValue, setCouponValue] = useState('');
@@ -87,11 +91,11 @@ const CartTotal = (props) => {
     if (!user._id) {
       alert('Please sign in to save the cart!!!');
     } else {
-      dispatchToDB(SaveOrderToDB(newOrder));
+      dispatchToDB(SaveOrderToDB(newOrder, accessToken));
       alert('Cart has been purchased');
 
       // need to clear the cart
-      dispatchToDB(ClearCartToDB(user._id));
+      dispatchToDB(ClearCartToDB(user._id, accessToken));
     }
   };
 

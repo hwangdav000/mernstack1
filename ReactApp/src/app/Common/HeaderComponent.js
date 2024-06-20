@@ -12,6 +12,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 let Header = (props) => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
   //allows us to read data from store/reducer as we do with mapStateToProps
   //becomes subscriber of user state from user reducer
   const user = useSelector((store) => store.userReducer.user);
@@ -27,13 +28,19 @@ let Header = (props) => {
 
   const dispatchToDB = useDispatch();
   useEffect(() => {
+    if (!accessToken) {
+      console.log('waiting on access token');
+      return;
+    }
+
     if (user._id !== '') {
-      dispatchToDB(getCartFromDB(user._id));
+      console.log('before get cart', accessToken);
+      dispatchToDB(getCartFromDB(user._id, accessToken));
     }
   }, [dispatchToDB, user._id]);
 
   //useDispatch
-  console.log(user);
+  console.log(user, accessToken);
 
   const usrName = user && user.userName ? user.userName : props.userName;
 
@@ -111,19 +118,6 @@ let Header = (props) => {
                     {' '}
                     Orders{' '}
                   </NavLink>
-                  <Button
-                    onClick={() => openNotif()}
-                    variant=""
-                  >
-                    <div
-                      style={{
-                        width: '1.3rem',
-                        height: '1.3rem',
-                        paddingTop: '.3rem',
-                      }}
-                      className="fas fa-cart-shopping fa-fw"
-                    ></div>
-                  </Button>
                 </>
               )}
               <Button
@@ -181,5 +175,19 @@ let Header = (props) => {
     </>
   );
 };
-
+{
+  /* <Button
+                    onClick={() => openNotif()}
+                    variant=""
+                  >
+                    <div
+                      style={{
+                        width: '1.3rem',
+                        height: '1.3rem',
+                        paddingTop: '.3rem',
+                      }}
+                      className="fas fa-cart-shopping fa-fw"
+                    ></div>
+                  </Button> */
+}
 export default Header;

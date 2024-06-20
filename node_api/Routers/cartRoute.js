@@ -1,9 +1,10 @@
 let express = require('express');
 let cartRouter = express.Router({}); //
+const { authenticateToken } = require('../Authentication/authenticate');
 
 let CartDataModel = require('../DataModels/CartDataModel'); //this gives access to all the methods defined in mongoose to access mongo db data
 
-cartRouter.post('/api/savecart', (req, res) => {
+cartRouter.post('/api/savecart', authenticateToken, (req, res) => {
   console.log(req.body);
 
   // can overwrite cart
@@ -42,13 +43,12 @@ cartRouter.post('/api/savecart', (req, res) => {
 });
 
 //code to fetch all the users from user collection and return back
-cartRouter.get('/api/getCart/:userId', (req, res) => {
+cartRouter.get('/api/getCart/:userId', authenticateToken, (req, res) => {
   const userId = req.params.userId;
 
   CartDataModel.findOne({ userId: userId })
     .then((cart) => {
       if (cart) {
-        console.log('got the fcart');
         res.send(cart.cartItems);
       } else {
         console.log('cart not found');
@@ -61,7 +61,7 @@ cartRouter.get('/api/getCart/:userId', (req, res) => {
 });
 
 // clear cart
-cartRouter.delete('/api/clearCart/:userId', (req, res) => {
+cartRouter.delete('/api/clearCart/:userId', authenticateToken, (req, res) => {
   const userId = req.params.userId;
 
   // Find the cart associated with the user ID

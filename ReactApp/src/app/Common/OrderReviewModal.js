@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { SaveReviewsToDB } from '../../state/Review/reviewAction';
 import { updateProductRating } from '../../state/Product/productAction.js';
 
 const ReviewModal = ({ show, handleClose, order, user }) => {
+  const accessToken = useSelector((store) => store.tokenReducer.accessToken);
   const dispatch = useDispatch();
   const [reviews, setReviews] = useState([]);
 
@@ -44,7 +45,7 @@ const ReviewModal = ({ show, handleClose, order, user }) => {
     };
     console.log(reviewJson);
 
-    dispatch(SaveReviewsToDB(reviewJson));
+    dispatch(SaveReviewsToDB(reviewJson, accessToken));
     alert('Reviews submitted successfully');
     handleClose();
     // update star ratings here
@@ -61,7 +62,7 @@ const ReviewModal = ({ show, handleClose, order, user }) => {
       productId: productId,
       newRating: newRating,
     };
-    dispatch(updateProductRating(productRating));
+    dispatch(updateProductRating(productRating, accessToken));
   };
 
   return (
