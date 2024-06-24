@@ -7,9 +7,9 @@ import {
   removeItem,
   updateItem,
   ClearCartToDB,
-} from '../../state/Cart/cartAction.js';
+} from '../../../state/Cart/cartAction.js';
 import { Col, Row, Button, Table, Form } from 'react-bootstrap';
-import { SaveOrderToDB } from '../../state/Order/orderAction.js';
+import { SaveOrderToDB } from '../../../state/Order/orderAction.js';
 
 const CartTotal = (props) => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);

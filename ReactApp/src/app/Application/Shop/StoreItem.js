@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import excel from '../images/excel.png';
-import m365 from '../images/m365.png';
-import office from '../images/office.png';
-import powerpoint from '../images/powerpoint.png';
-import ProductReviewModal from './ProductReviewModal';
+import excel from '../../images/excel.png';
+import m365 from '../../images/m365.png';
+import office from '../../images/office.png';
+import powerpoint from '../../images/powerpoint.png';
+import ProductReviewModal from '../Product/ProductReviewModal';
 
 const StoreItem = (props) => {
   const {
     _id,
     productName,
     price,
+    desc,
     rating,
     picURL,
     addToCart,
@@ -116,6 +117,8 @@ const StoreItem = (props) => {
               )}
             </div>
             <span className="text-muted">Price: ${price}</span>
+            <br />
+            <span className="text-muted">Desc: {desc}</span>
           </div>
         </div>
         <div className="text-center mt-auto">

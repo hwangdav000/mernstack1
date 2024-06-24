@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RemoveNotification } from '../../state/Notification/notificationAction.js';
+import { RemoveNotification } from '../../../state/Notification/notificationAction.js';
 import { useNavigate } from 'react-router-dom';
 import { Offcanvas, ListGroup, Button } from 'react-bootstrap';
 const Notification = ({ isOpen, closeNotif, notifs }) => {

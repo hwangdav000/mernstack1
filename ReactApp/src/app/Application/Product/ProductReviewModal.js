@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import { getReviewsFromDB } from '../../state/Review/reviewAction'; // Import action to fetch reviews
+import { getReviewsFromDB } from '../../../state/Review/reviewAction'; // Import action to fetch reviews
 
 const ProductReviewModal = ({ show, handleClose, productId }) => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);
@@ -18,7 +18,7 @@ const ProductReviewModal = ({ show, handleClose, productId }) => {
       console.log('accessing reviews : ', accessToken);
       dispatch(getReviewsFromDB(productId, accessToken)); // Fetch reviews for the selected product
     }
-  }, [dispatch, productId, accesesToken]);
+  }, [dispatch, productId, accessToken]);
 
   return (
     <Modal

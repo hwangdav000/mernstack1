@@ -12,15 +12,15 @@ import Footer from './Common/FooterComponent';
 import Header from './Common/HeaderComponent';
 import About from './Common/AboutComponent';
 import NotFound from './Common/NotFoundComponent';
-import UserComponent from './Application/User/UserContainer';
+
 import UserHook from './Application/User/UserHookComponent';
-import Student from './Common/StudentComponent';
-import Hobby from './Common/HobbyComponent';
-import Product from './Common/ProductComponent';
-import Store from './Common/CartComponent';
-import CartDetail from './Common/CartDetailComponent';
-import Coupon from './Common/CouponComponent';
-import Order from './Common/OrderComponent';
+import Student from './Application/Student/StudentComponent';
+import Hobby from './Application/Student/HobbyComponent';
+import Product from './Application/Product/ProductComponent';
+import Store from './Application/Shop/ShopComponent';
+import CartDetail from './Application/Cart/CartDetailComponent';
+import Coupon from './Application/Coupon/CouponComponent';
+import Order from './Application/Order/OrderComponent';
 
 export default class ApplicationComponent extends Component {
   //props - is the set of properties html + js which needs to be available in every component
@@ -36,15 +36,6 @@ export default class ApplicationComponent extends Component {
 
   //the parameter will be accepted here when function executes in child component
   updateName = (value) => {
-    //alert("Updating the name!!")
-
-    // let nameElem = document.getElementById("name_element")
-    // nameElem.innerText = "Yao"
-    //nameElem.innerText = "David"
-
-    // this.state.name = "Alieen"
-    // console.log(this.state.name)
-
     //update state to create new virtual dom using setState - api
 
     this.setState({
@@ -131,24 +122,3 @@ export default class ApplicationComponent extends Component {
     );
   }
 }
-
-// render(){
-//         //let name = "Suyash Talekar!!!"
-//         return(
-//             <Router className="topdiv">
-//             {/* <div className="topdiv"> */}
-//                 {/* <h4>This is main react application Component</h4>
-//                 <h5><b id="name_element">{this.state.name}</b></h5>
-//                 <TestComponent/>
-//                 <button onClick={this.updateName} >Update Name</button>
-//                 */}
-
-//                 <Header/>
-//                 <Home parentName={this.state.name}/>
-//                 <About />
-//                 <Footer/>
-
-//             {/* </div> */}
-//             </Router>
-//         )
-//     }

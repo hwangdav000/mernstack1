@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { SaveReviewsToDB } from '../../state/Review/reviewAction';
-import { updateProductRating } from '../../state/Product/productAction.js';
+import { SaveReviewsToDB } from '../../../state/Review/reviewAction.js';
+import { updateProductRating } from '../../../state/Product/productAction.js';
 
 const ReviewModal = ({ show, handleClose, order, user }) => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);

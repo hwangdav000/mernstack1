@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
-import Shopping from './ShoppingComponent.js';
-import Notification from './NotificationComponent.js';
+import Notification from '../Application/Notification/NotificationComponent';
 import {
   getCartFromDB,
   SaveCartToDB,
@@ -88,15 +87,19 @@ let Header = (props) => {
               >
                 User{' '}
               </NavLink>
+
+              {user.userName === 'ADMIN' && (
+                <NavLink
+                  to="/product"
+                  className="nav-link"
+                >
+                  {' '}
+                  Product{' '}
+                </NavLink>
+              )}
+
               {user._id !== '' && (
                 <>
-                  <NavLink
-                    to="/product"
-                    className="nav-link"
-                  >
-                    {' '}
-                    Product{' '}
-                  </NavLink>
                   <NavLink
                     to="/store"
                     className="nav-link"

@@ -5,17 +5,17 @@ import {
   getCartFromDB,
   SaveCartToDB,
   SaveCartToDB2,
-} from '../../state/Cart/cartAction';
-import { AddNotification } from '../../state/Notification/notificationAction.js';
+} from '../../../state/Cart/cartAction.js';
+import { AddNotification } from '../../../state/Notification/notificationAction.js';
 import { Col, Row, Button } from 'react-bootstrap';
 import {
   SaveProductToDBUsingFetch,
   getProductsFromDB,
-} from '../../state/Product/productAction';
+} from '../../../state/Product/productAction.js';
 import StoreItem from './StoreItem.js';
 import { set } from 'mongoose';
 
-const Cart = () => {
+const Shop = () => {
   const navigate = useNavigate();
   // Get list of products
   let ProductList = useSelector((state) => state.productReducer.productList);
@@ -170,4 +170,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Shop;

@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
-import { removeItem, updateItem } from '../../state/Cart/cartAction.js';
+import { removeItem, updateItem } from '../../../state/Cart/cartAction.js';
 import { Col, Row, Button, Table } from 'react-bootstrap';
 
 const Checkout = (props) => {

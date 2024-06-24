@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrdersFromDB } from '../../state/Order/orderAction.js';
-import { Col, Row, Button, Table } from 'react-bootstrap';
-import {
-  SaveProductToDBUsingFetch,
-  getProductsFromDB,
-} from '../../state/Product/productAction.js';
-import StoreItem from './StoreItem.js';
-import { set } from 'mongoose';
+import { getOrdersFromDB } from '../../../state/Order/orderAction.js';
+import { Button, Table } from 'react-bootstrap';
 import OrderItemComponent from './OrderItemComponent.js';
 
 const Order = () => {

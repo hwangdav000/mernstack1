@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
-import { removeItem, updateItem } from '../../state/Cart/cartAction.js';
+import { removeItem, updateItem } from '../../../state/Cart/cartAction.js';
 
 let CartItemComponent = (props) => {
   let item = props.item;

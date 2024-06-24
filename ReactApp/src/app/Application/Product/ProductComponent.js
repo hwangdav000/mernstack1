@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   SaveProductToDBUsingFetch,
   getProductsFromDB,
-} from '../../state/Product/productAction';
+} from '../../../state/Product/productAction';
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 
 let Product = (props) => {
@@ -16,7 +16,7 @@ let Product = (props) => {
   let productName = useRef('');
   let price = useRef(0);
   let desc = useRef('');
-  let rating = useRef(0);
+  let picURL = useRef('');
 
   const [showProducts, setShowProducts] = useState(false);
 
@@ -32,7 +32,7 @@ let Product = (props) => {
       productName: productName.current.value,
       price: price.current.value,
       desc: desc.current.value,
-      rating: rating.current.value,
+      picURL: picURL.current.value,
     };
     console.log(newProduct);
     dispatchToDB(SaveProductToDBUsingFetch(newProduct, accessToken));
@@ -40,18 +40,10 @@ let Product = (props) => {
     productName.current.value = '';
     price.current.value = '';
     desc.current.value = '';
-    rating.current.value = '';
+    picURL.current.value = '';
 
     evt.preventDefault();
   };
-
-  useEffect(() => {
-    console.log('Re render happened');
-
-    return () => {
-      console.log('Makes use effect to work for componentWillUnmount');
-    };
-  }, []);
 
   return (
     <>
@@ -129,14 +121,14 @@ let Product = (props) => {
               column
               sm={2}
             >
-              <b>Rating:</b>
+              <b>Picture URL:</b>
             </Form.Label>
             <Col sm={10}>
               <Form.Control
-                type="number"
-                ref={rating}
-                placeholder="Please enter rating"
-                maxLength={20}
+                type="text"
+                ref={picURL}
+                placeholder="Please enter picture URL"
+                maxLength={150}
                 required
               />
             </Col>
