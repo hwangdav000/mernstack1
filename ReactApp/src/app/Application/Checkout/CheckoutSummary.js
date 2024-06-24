@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  getCartFromDB,
-  SaveCartToDB,
-  SaveCartToDB2,
-  removeItem,
-  updateItem,
-  ClearCartToDB,
-} from '../../../state/Cart/cartAction.js';
-import { Col, Row, Button, Table, Form } from 'react-bootstrap';
+import { ClearCartToDB } from '../../../state/Cart/cartAction.js';
+import { Button, Form } from 'react-bootstrap';
 import { SaveOrderToDB } from '../../../state/Order/orderAction.js';
 
 const CartTotal = (props) => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);
-  console.log('in cart total ', accessToken);
-  // Get access to cart
+
   let cartList = props.cartList;
 
   // Get access to products from store

@@ -43,20 +43,16 @@ const ReviewModal = ({ show, handleClose, order, user }) => {
     let reviewJson = {
       reviews: reviews,
     };
-    console.log(reviewJson);
 
     dispatch(SaveReviewsToDB(reviewJson, accessToken));
-    alert('Reviews submitted successfully');
     handleClose();
-    // update star ratings here
 
-    // iterate reviews
+    //update according to reviews
     reviews.forEach((review) => {
       updateRating(review.productId, review.rating);
     });
   };
 
-  // use another function to handle logic above
   let updateRating = (productId, newRating) => {
     let productRating = {
       productId: productId,

@@ -17,7 +17,6 @@ import orderReducer from './Order/orderReducer';
 import reviewReducer from './Review/reviewReducer';
 import notificationReducer from './Notification/notificationReducer';
 import tokenReducer from './Token/tokenReducer';
-//import productReducer from  "./Product/productReducer"; //another reducer for product component
 
 //we can add multiple reducers and combine them togather to have one root reducer and add it to store
 let rootReducer = combineReducers({

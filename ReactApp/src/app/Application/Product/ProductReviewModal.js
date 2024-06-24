@@ -15,7 +15,6 @@ const ProductReviewModal = ({ show, handleClose, productId }) => {
       return;
     }
     if (productId) {
-      console.log('accessing reviews : ', accessToken);
       dispatch(getReviewsFromDB(productId, accessToken)); // Fetch reviews for the selected product
     }
   }, [dispatch, productId, accessToken]);

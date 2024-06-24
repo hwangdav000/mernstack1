@@ -3,32 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   getCartFromDB,
-  SaveCartToDB,
   SaveCartToDB2,
 } from '../../../state/Cart/cartAction.js';
 import { AddNotification } from '../../../state/Notification/notificationAction.js';
 import { Col, Row, Button } from 'react-bootstrap';
-import {
-  SaveProductToDBUsingFetch,
-  getProductsFromDB,
-} from '../../../state/Product/productAction.js';
+import { getProductsFromDB } from '../../../state/Product/productAction.js';
 import StoreItem from './StoreItem.js';
-import { set } from 'mongoose';
 
 const Shop = () => {
-  const navigate = useNavigate();
-  // Get list of products
-  let ProductList = useSelector((state) => state.productReducer.productList);
-  console.log(ProductList);
-
-  const user = useSelector((store) => store.userReducer.user);
-  const dispatchToDB = useDispatch();
-
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);
-  console.log('this is the access token in the cart', accessToken);
-
+  let ProductList = useSelector((state) => state.productReducer.productList);
+  const user = useSelector((store) => store.userReducer.user);
   const userCart = useSelector((store) => store.cartReducer.cart);
+
   const cartList = userCart ? userCart.cartList : [];
+
+  const navigate = useNavigate();
+  const dispatchToDB = useDispatch();
 
   const [cartItems, setCartItems] = useState(cartList);
 
@@ -84,7 +75,6 @@ const Shop = () => {
       userName: user.userName,
       cartItems: updatedCartItems,
     };
-    console.log(newCart);
 
     if (user._id !== '') {
       dispatchToDB(SaveCartToDB2(newCart, accessToken));
@@ -111,7 +101,6 @@ const Shop = () => {
     }
   };
 
-  // later when showing cart
   useEffect(() => {
     if (!accessToken) {
       console.log('waiting on access token');
@@ -126,7 +115,6 @@ const Shop = () => {
     setCartItems(cartList);
   }, [userCart, cartList]);
 
-  console.log('cart items', cartItems);
   return (
     <>
       <h1>Store</h1>

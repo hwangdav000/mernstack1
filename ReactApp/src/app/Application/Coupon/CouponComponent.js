@@ -1,17 +1,15 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AddCoupon } from '../../../state/Coupon/couponAction.js';
 
 let Coupon = () => {
-  //Javascript Like XML structure (not html, not xml - but js)
+  let [randomCoupon, setRandomCoupon] = useState('');
 
   let dispatchCoupon = useDispatch();
-  let [randomCoupon, setRandomCoupon] = useState('');
 
   let generateCoupon = () => {
     randomCoupon = generateRandomString(6);
     setRandomCoupon(randomCoupon);
-    console.log(randomCoupon);
     dispatchCoupon(AddCoupon(randomCoupon));
   };
 

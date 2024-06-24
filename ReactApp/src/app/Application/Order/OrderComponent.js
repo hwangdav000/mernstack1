@@ -6,7 +6,6 @@ import OrderItemComponent from './OrderItemComponent.js';
 
 const Order = () => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);
-  // Need to show the Name and Address of the user
   const user = useSelector((store) => store.userReducer.user);
   const lOrders = useSelector((store) => store.orderReducer.ordersList);
 
@@ -41,7 +40,6 @@ const Order = () => {
     return !filter.inTransit && !filter.delivered && !filter.canceled; // Show all if no filters are active
   });
 
-  console.log(lOrders);
   return (
     <>
       <div>

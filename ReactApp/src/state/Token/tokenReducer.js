@@ -5,17 +5,14 @@ let initialState = {
   refreshToken: '',
 };
 
-// action => type and payload
-
 let tokenReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_TOKEN_TO_STORE:
-      // action.payload contains the new tokens
       const { accessToken, refreshToken } = action.payload;
-      return { ...state, accessToken, refreshToken }; // new state with updated tokens
+      return { ...state, accessToken, refreshToken };
 
     default:
-      return state; // if no action type matched return default state
+      return state;
   }
 };
 

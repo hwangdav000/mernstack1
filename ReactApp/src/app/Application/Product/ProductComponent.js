@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   SaveProductToDBUsingFetch,
@@ -9,7 +9,6 @@ import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 let Product = (props) => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);
 
-  let Product = useSelector((store) => store.productReducer.product);
   let ProductList = useSelector((state) => state.productReducer.productList);
   const user = useSelector((store) => store.userReducer.user);
 
@@ -34,7 +33,7 @@ let Product = (props) => {
       desc: desc.current.value,
       picURL: picURL.current.value,
     };
-    console.log(newProduct);
+
     dispatchToDB(SaveProductToDBUsingFetch(newProduct, accessToken));
 
     productName.current.value = '';

@@ -4,7 +4,6 @@ import {
   getCartFromDB,
   SaveCartToDB2,
 } from '../../../state/Cart/cartAction.js';
-
 import CheckoutItem from '../Checkout/CheckoutItem.js';
 import CheckoutSummary from '../Checkout/CheckoutSummary.js';
 
@@ -13,24 +12,21 @@ const CartDetail = () => {
 
   // Need to show the Name and Address of the user
   const user = useSelector((store) => store.userReducer.user);
-  const couponStoreValue = useSelector(
-    (store) => store.couponReducer.couponValue
-  );
 
-  const [couponValue, setCouponValue] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const userName = user.userName;
   const userAddress = user.street;
 
+  const orders = useSelector((store) => store.orderReducer.order);
+  const orderList = orders ? orders.orderList : [];
+
   // get cart items
   // later when showing cart
   const dispatchToDB = useDispatch();
 
   let clickToSaveCart = () => {
-    console.log(user);
-    console.log('cart List here');
     let newCart = {
       userId: user._id,
       userName: userName,
@@ -74,15 +70,7 @@ const CartDetail = () => {
     }
     clickToSaveCart();
   }, [cartList, couponApplied]);
-  // at the end there will be a total
-  console.log('cartList ', cartList);
 
-  // want ot check order last
-
-  const orders = useSelector((store) => store.orderReducer.order);
-  const orderList = orders ? orders.orderList : [];
-
-  console.log('orderList ', orderList);
   return (
     <div className="container">
       <div className="row">

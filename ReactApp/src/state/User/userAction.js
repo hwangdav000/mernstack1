@@ -1,40 +1,39 @@
-//action - is an object with two properties - type and payload
 import * as actionTypes from '../actionTypes';
-import { AddTokenToStore } from '../Token/tokenAction.js'; // Import token action
+import { AddTokenToStore } from '../Token/tokenAction.js';
 import axios from 'axios';
 
 export const AddUserToStore = (user) => {
   return {
-    type: actionTypes.ADD_USER_TO_STORE, //actiontype to be matched in user reducer
-    payload: user, //payload which will update the
+    type: actionTypes.ADD_USER_TO_STORE,
+    payload: user,
   };
 };
 
 export const AddHobbiesToStore = (hobbies) => {
   return {
-    type: actionTypes.ADD_HOBBIES_TO_STORE, //actiontype to be matched in user reducer
-    payload: hobbies, //payload which will update the
+    type: actionTypes.ADD_HOBBIES_TO_STORE,
+    payload: hobbies,
   };
 };
 
 export const GetHobbiesToStore = (hobbies) => {
   return {
-    type: actionTypes.GET_HOBBIES_TO_STORE, //actiontype to be matched in user reducer
-    payload: hobbies, //payload which will update the
+    type: actionTypes.GET_HOBBIES_TO_STORE,
+    payload: hobbies,
   };
 };
 
 export const LoginUserToStore = (user) => {
   return {
-    type: actionTypes.LOGIN_USER, //actiontype to be matched in user reducer
-    payload: user, //payload which will update the
+    type: actionTypes.LOGIN_USER,
+    payload: user,
   };
 };
 
 export const UpdateLoginToStore = (state) => {
   return {
-    type: actionTypes.UPDATE_LOGIN, //actiontype to be matched in user reducer
-    payload: state, //payload which will update the
+    type: actionTypes.UPDATE_LOGIN,
+    payload: state,
   };
 };
 
@@ -50,9 +49,6 @@ export const LoginUserDB = (user) => {
         let loggedUser = collection.data.existingUser;
         let accessToken = collection.data.accessToken;
         let refreshToken = collection.data.refreshToken;
-        console.log(loggedUser);
-        console.log('access token', accessToken);
-        console.log('refresh token', refreshToken);
 
         dispatch(UpdateLoginToStore(true));
         dispatch(LoginUserToStore(loggedUser));
@@ -75,7 +71,6 @@ export const SaveUserToDB = (newUser) => {
       )
       .then((collection) => {
         let loggedUser = collection.data;
-        console.log(loggedUser);
         dispatch(AddUserToStore(loggedUser));
       })
       .catch((err) => {
@@ -97,7 +92,6 @@ export const SaveUserToDBUsingFetch = (newUser) => {
       })
       .then((response) => response.json())
       .then((userData) => {
-        console.log('getting user from fetch', userData);
         dispatch(AddUserToStore(userData));
         return true;
       })
@@ -109,8 +103,6 @@ export const SaveUserToDBUsingFetch = (newUser) => {
 };
 
 export const SaveHobbiesToDBUsingFetch = (user) => {
-  console.log('going to save hobbies');
-  console.log(user);
   return (dispatch) => {
     window
       .fetch('http://localhost:9000/user/api/addhobby', {
@@ -123,7 +115,6 @@ export const SaveHobbiesToDBUsingFetch = (user) => {
       })
       .then((response) => response.json())
       .then((userData) => {
-        console.log(userData);
         dispatch(AddHobbiesToStore(userData));
       })
       .catch((err) => {

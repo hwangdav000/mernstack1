@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { RemoveNotification } from '../../../state/Notification/notificationAction.js';
 import { useNavigate } from 'react-router-dom';
-import { Offcanvas, ListGroup, Button } from 'react-bootstrap';
+import { Offcanvas, ListGroup } from 'react-bootstrap';
 const Notification = ({ isOpen, closeNotif, notifs }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

@@ -18,14 +18,14 @@ export const GetCart = (cart) => {
 
 export const removeItem = (id) => ({
   type: actionTypes.REMOVE_ITEM,
-  payload: { id }, //id: 4
+  payload: { id },
 });
 
 export const updateItem = (id, qty) => ({
   type: actionTypes.UPDATE_ITEM,
   payload: {
-    id, //id : 5
-    quantity: parseInt(qty), // update the quantity
+    id,
+    quantity: parseInt(qty),
   },
 });
 
@@ -35,8 +35,6 @@ export const clearCart = () => {
   };
 };
 
-//server call
-//to save user to mongo db and do sign-in or sign up
 export const SaveCartToDB = (cart, accessToken) => {
   const config = {
     headers: {
@@ -53,9 +51,7 @@ export const SaveCartToDB = (cart, accessToken) => {
       )
       .then((response) => {
         let loggedCart = response.data;
-        console.log('logged data', loggedCart);
         dispatch(AddCart(loggedCart));
-        //alert('cart has been submitted');
       })
       .catch((err) => {
         console.log('error while saving', err);
@@ -79,9 +75,7 @@ export const SaveCartToDB2 = (cart, accessToken) => {
       )
       .then((response) => {
         let loggedCart = response.data;
-        console.log('logged data', loggedCart);
-        //dispatch(AddCart(loggedCart));
-        //alert('cart has been submitted');
+        //console.log('logged data', loggedCart);
       })
       .catch((err) => {
         console.log('error while saving', err);
@@ -101,9 +95,7 @@ export const ClearCartToDB = (id, accessToken) => {
       .delete('http://localhost:9000/cart/api/clearCart/' + id, config)
       .then((response) => {
         let loggedCart = response.data;
-        console.log('logged data', loggedCart);
         dispatch(clearCart());
-        //alert('cart has been submitted');
       })
       .catch((err) => {
         console.log('error while saving', err);
@@ -124,7 +116,6 @@ export const getCartFromDB = (id, accessToken) => {
       .get(path, config)
       .then((response) => {
         const cart = response.data;
-        console.log(cart);
         dispatch(GetCart(cart));
       })
       .catch((error) => {

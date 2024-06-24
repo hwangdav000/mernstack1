@@ -4,20 +4,20 @@ import {
   CancelOrderToDB,
   DeliverOrderToDB,
   SaveOrderToDB,
-  getOrdersFromDB,
 } from '../../../state/Order/orderAction.js';
 import { AddNotification } from '../../../state/Notification/notificationAction.js';
 import { Button } from 'react-bootstrap';
-import ReviewModal from './OrderReviewModal'; // Import the ReviewModal component
+import ReviewModal from './OrderReviewModal';
 
 const OrderItemComponent = (props) => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);
-  console.log('in order item component: ', accessToken);
   const { item } = props;
-  const dispatchToDB = useDispatch();
+
   const [delivered, setDelivered] = useState(false);
   const [formattedOrderDate, setFormattedOrderDate] = useState('');
   const [showReviewModal, setShowReviewModal] = useState(false);
+
+  const dispatchToDB = useDispatch();
 
   // Calculate if 2 days have passed since the order date
   useEffect(() => {
@@ -67,7 +67,6 @@ const OrderItemComponent = (props) => {
 
     dispatchToDB(SaveOrderToDB(newOrder, accessToken));
     alert('Reordered successfully');
-    //dispatchToDB(getOrdersFromDB(item.userId));
   };
 
   const handleReview = () => {
@@ -76,7 +75,6 @@ const OrderItemComponent = (props) => {
 
   const handleCloseReviewModal = () => {
     setShowReviewModal(false);
-    // Optionally reset review data here if needed
   };
 
   return (

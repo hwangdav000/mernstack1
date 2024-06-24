@@ -21,10 +21,7 @@ export const cancelOrder = (id) => ({
   payload: { id }, //id: 4
 });
 
-//server call
-//to save user to mongo db and do sign-in or sign up
 export const SaveOrderToDB = (order, accessToken) => {
-  // Set up config with authorization header
   const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -40,7 +37,6 @@ export const SaveOrderToDB = (order, accessToken) => {
       )
       .then((response) => {
         let loggedOrder = response.data;
-        console.log('logged data', loggedOrder);
         dispatch(AddOrder(loggedOrder));
         //alert('order has been submitted');
       })
@@ -85,7 +81,7 @@ export const DeliverOrderToDB = (id, userId, accessToken) => {
 
   return (dispatch) => {
     axios
-      .post(`http://localhost:9000/order/api/deliverOrder/${id}`, {}, config) // Empty data object
+      .post(`http://localhost:9000/order/api/deliverOrder/${id}`, {}, config) // Empty data object needed in post
       .then((response) => {
         let loggedOrder = response.data;
         console.log('logged data', loggedOrder);

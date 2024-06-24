@@ -38,7 +38,6 @@ Other notif message (these will be populated dynamically)
 
 
 */
-// action => type and payload
 
 let notificationReducer = (state = initialState, action) => {
   console.log('Coupon Actions ', action);
@@ -48,7 +47,7 @@ let notificationReducer = (state = initialState, action) => {
       return {
         ...state,
         notifications: [...state.notifications, action.payload],
-      }; //new state dispatched to store upon update
+      };
 
     case actionTypes.REMOVE_NOTIFICATION:
       return {
@@ -59,7 +58,7 @@ let notificationReducer = (state = initialState, action) => {
       };
 
     default:
-      return state; //if no action type matched return default state
+      return state;
   }
 };
 

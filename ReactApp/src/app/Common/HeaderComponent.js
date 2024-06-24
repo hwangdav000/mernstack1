@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-
 import Notification from '../Application/Notification/NotificationComponent';
-import {
-  getCartFromDB,
-  SaveCartToDB,
-  SaveCartToDB2,
-} from '../../state/Cart/cartAction';
+import { getCartFromDB } from '../../state/Cart/cartAction';
 import { useSelector, useDispatch } from 'react-redux';
 
 let Header = (props) => {
   const accessToken = useSelector((store) => store.tokenReducer.accessToken);
-  //allows us to read data from store/reducer as we do with mapStateToProps
-  //becomes subscriber of user state from user reducer
   const user = useSelector((store) => store.userReducer.user);
-  const cart = useSelector((store) => store.cartReducer.cart);
-  const userLoginHeader = useSelector((store) => store.userReducer.login);
-  const cartList = cart ? cart.cartList : [];
-
+  const usrName = user && user.userName ? user.userName : props.userName;
   const [isOpen, setIsOpen] = useState(false);
 
   const notifs = useSelector(
@@ -33,21 +23,11 @@ let Header = (props) => {
     }
 
     if (user._id !== '') {
-      console.log('before get cart', accessToken);
       dispatchToDB(getCartFromDB(user._id, accessToken));
     }
   }, [dispatchToDB, user._id]);
 
-  //useDispatch
-  console.log(user, accessToken);
-
-  const usrName = user && user.userName ? user.userName : props.userName;
-
-  console.log('Header login state', userLoginHeader);
-  console.log('User ', user);
-
   const openNotif = () => {
-    console.log('click open cart');
     setIsOpen(true);
   };
 

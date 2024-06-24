@@ -26,7 +26,7 @@ const StoreItem = (props) => {
     evt.preventDefault();
     const success = addToCart(productName, _id, price);
     if (success !== -1) {
-      setQuantity((prevQuantity) => prevQuantity + 1); // update quantity immutably
+      setQuantity((prevQuantity) => prevQuantity + 1);
     }
   };
 
@@ -34,12 +34,12 @@ const StoreItem = (props) => {
     evt.preventDefault();
     if (quantity > 0) {
       subtractToCart(productName);
-      setQuantity((prevQuantity) => prevQuantity - 1); // update quantity immutably
+      setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
 
   const openReviewModal = () => {
-    setShowReviewModal(true); // Function to open the review modal
+    setShowReviewModal(true);
   };
 
   const renderStars = () => {
@@ -52,7 +52,7 @@ const StoreItem = (props) => {
       return <div className="stars-container">No Ratings</div>;
     }
 
-    // Full stars
+    // Full stars using react icons
     for (let i = 0; i < fullStars; i++) {
       stars.push(
         <i
